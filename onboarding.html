@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SafeRef Health - Onboarding</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .hero-gradient {
+            background: radial-gradient(circle at 100% 0%, #78fbb620 0%, transparent 40%),
+                        radial-gradient(circle at 0% 100%, #78060610 0%, transparent 40%);
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .pulse-soft {
+            animation: pulse-soft 3s infinite ease-in-out;
+        }
+        @keyframes pulse-soft {
+            0%, 100% { transform: scale(1); opacity: 0.1; }
+            50% { transform: scale(1.05); opacity: 0.2; }
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "surface-container": "#eceef0",
+                        "secondary-container": "#d5e0f8",
+                        "on-primary-fixed-variant": "#005232",
+                        "outline-variant": "#bccabe",
+                        "on-secondary-fixed": "#111c2d",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "inverse-on-surface": "#eff1f3",
+                        "secondary-fixed": "#d8e3fb",
+                        "on-primary-container": "#00331d",
+                        "on-surface-variant": "#3d4a41",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-primary-fixed": "#002111",
+                        "surface-container-high": "#e6e8ea",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f2f4f6",
+                        "background": "#f7f9fb",
+                        "on-secondary-container": "#586377",
+                        "primary-container": "#780606",
+                        "surface-dim": "#d8dadc",
+                        "on-tertiary-fixed": "#001a42",
+                        "inverse-primary": "#ff8e8e",
+                        "tertiary": "#005ac2",
+                        "primary-fixed-dim": "#ff8e8e",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "secondary": "#545f73",
+                        "primary-fixed": "#78fbb6",
+                        "tertiary-container": "#5290ff",
+                        "surface-tint": "#780606",
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary-fixed-variant": "#004395",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#191c1e",
+                        "surface": "#f7f9fb",
+                        "outline": "#6d7a70",
+                        "tertiary-fixed": "#d8e2ff",
+                        "tertiary-fixed-dim": "#adc6ff",
+                        "primary": "#780606",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "on-tertiary-container": "#002960",
+                        "on-surface": "#191c1e",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "stack-lg": "24px",
+                        "margin-mobile": "20px",
+                        "gutter": "16px",
+                        "margin-desktop": "40px",
+                        "card-padding": "16px",
+                        "unit": "4px",
+                        "stack-md": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Manrope"],
+                        "body-md": ["Manrope"],
+                        "headline-lg-mobile": ["Manrope"],
+                        "button": ["Manrope"],
+                        "body-lg": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "label-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "button": ["16px", { "lineHeight": "20px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface antialiased overflow-x-hidden">
+<!-- Top Navigation Bar (Partial suppressed for Onboarding context, but keeping Brand anchor) -->
+<nav class="fixed top-0 left-0 w-full h-16 px-margin-desktop flex justify-between items-center bg-surface/80 backdrop-blur-md z-50">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-white">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+</div>
+<span class="text-headline-md font-headline-md font-extrabold text-primary">SafeRef Health</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="nearestfacilities.html">Our Network</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="requestHelp.html">Emergency Protocol</a>
+<button class="px-6 py-2 rounded-full border-1.5 border-primary text-primary font-button hover:bg-primary-container/10 transition-all" onclick="window.location.href='roleselection.html'">
+                Login
+            </button>
+</div>
+</nav>
+<main class="min-h-screen hero-gradient flex flex-col justify-center pt-16">
+<div class="max-w-[1280px] mx-auto px-margin-desktop grid grid-cols-1 md:grid-cols-12 gap-12 items-center py-stack-lg">
+<!-- Left Content: Hero Text & Actions -->
+<div class="md:col-span-6 flex flex-col gap-8 order-2 md:order-1">
+<div class="space-y-4">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span class="text-label-md font-label-md uppercase tracking-wider">AI-Powered Emergency Referral</span>
+</div>
+<h1 class="text-[56px] leading-[1.1] font-extrabold text-on-surface tracking-tighter">
+                        Welcome to <span class="text-primary">SafeRef Health</span>
+</h1>
+<p class="text-body-lg text-on-surface-variant max-w-xl">
+                        Instant AI-matched referrals to hospitals with the exact resources you need. Right care. Right place. Right time.
+                    </p>
+</div>
+<!-- Bento-style Action Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter">
+<!-- Primary CTA -->
+<button class="flex flex-col items-start p-6 rounded-xl bg-primary-container text-white shadow-lg shadow-primary-container/20 hover:scale-[1.02] transition-transform group text-left" onclick="window.location.href='userAuth.html'">
+<div class="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center mb-4 group-hover:rotate-6 transition-transform">
+<span class="material-symbols-outlined">rocket_launch</span>
+</div>
+<span class="text-headline-md font-headline-md mb-1">Get Started</span>
+<p class="text-label-md opacity-80">Find a medical facility now</p>
+</button>
+<!-- Secondary CTA -->
+<button class="flex flex-col items-start p-6 rounded-xl bg-surface-container-highest/50 border border-outline-variant/30 hover:border-primary/30 transition-all text-left" onclick="window.location.href='healthWorkerAuth.html'">
+<div class="w-10 h-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-4">
+<span class="material-symbols-outlined">health_and_safety</span>
+</div>
+<span class="text-headline-md font-headline-md text-on-surface mb-1">I'm a Health Worker</span>
+<p class="text-label-md text-on-surface-variant">Access professional tools</p>
+</button>
+</div>
+<div class="flex items-center gap-6 pt-4 border-t border-outline-variant/20">
+<div class="flex -space-x-3">
+<div class="w-10 h-10 rounded-full border-2 border-background bg-surface-dim">
+<img class="w-full h-full object-cover rounded-full" data-alt="A professional close-up portrait of a female doctor in her 40s wearing a white lab coat and stethoscope, looking confident and kind against a blurred clinical background. Soft, natural lighting. High-end professional photography style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpAfnYoAs4cd-jGYENq3uKzjk3dudCKeMWz7gkz_xJgQuQzlROD2g-_osNNezyOEVRKS5W9MCtvkzGVqRajIZQpvR4MJpzqKrDw4oppJZGRr2I5mgTGt6xWY0xl6teVz8oUoahaqL6IV4S7qrCpOhO6YkVXKlUMYGSqTbfp65woh7uGQ99ZB1kVmSIDR29DHtjdzCQ01abw27hneCEQdmU4AAOuqup50lAgmZfS-9FKxBMIDAJcpShpg"/>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-background bg-surface-dim">
+<img class="w-full h-full object-cover rounded-full" data-alt="A professional close-up portrait of a male emergency responder in a navy blue uniform, smiling warmly. The lighting is clean and clinical, suggesting a trustworthy medical environment. Sharp focus on facial features, professional bokeh background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAC_iNGuwKM7GZgF-QLmBSYzu8Suu8TBFa6eF20_2NBoGpiLc4rfdQRNBTTADEU7TuXKryQKCblATj_kNd5XF8p5DAPcYC2qA5reuFoQBZ-Ata0aOQ-H1wxBGgBmLiVcDYyynbNgd9yDG_xCPVGwCGzFiC5vxYqyhZa813rE3EZGFoK3zdLnurClNzT-lBVFCUQWJGzuIH61QOqkSAuxXetGjMSVeWRNxvgbiqRmX6ee7frZPxOmSsURw"/>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-background bg-surface-dim">
+<img class="w-full h-full object-cover rounded-full" data-alt="A professional close-up portrait of a diverse medical professional in hospital scrubs, looking professional and ready to help. Modern lighting, clean teal-green color palette elements in the background to match brand identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjffLBhkfedBmb0v7XJRKjM7MzrT_6zKSR7TN0J4zVUsk6dyHlk-QfrSRkLLCuXti3-GBzRgQEkH3zWrBbBXB4B3XXAMp_8zxWsKn5CmYXWyh7d0GZ50-l-cPE_0-eiMbNOilnbEk1laUJSAn103pILCkU8Z6c_qUISdQU-qDyxSO8vriPB0-IoftkyXuarnpNsvyJp4Rhkk9LAcxliuc9kH2wGFJ_qsJsVwl2CXBzBc8w5aW2Wjp97g"/>
+</div>
+</div>
+<div class="text-label-md text-on-surface-variant">
+                        Joined by <span class="text-on-surface font-bold">2,400+</span> healthcare providers
+                    </div>
+</div>
+</div>
+<!-- Right Content: Visual Anchor -->
+<div class="md:col-span-6 relative order-1 md:order-2">
+<div class="relative z-10 w-full aspect-square max-w-lg mx-auto">
+<!-- Central Mockup Graphic -->
+<div class="absolute inset-0 bg-primary/5 rounded-full pulse-soft scale-110"></div>
+<div class="relative glass-card w-full h-full rounded-3xl overflow-hidden shadow-2xl border-white/50 p-stack-md flex items-center justify-center">
+<div class="w-full h-full relative">
+<!-- Background Map Abstract -->
+<div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#780606 1px, transparent 1px); background-size: 24px 24px;"></div>
+<!-- Floating Data Points -->
+<div class="absolute top-10 right-10 p-4 glass-card rounded-xl shadow-sm border-l-4 border-primary animate-bounce" style="animation-duration: 4s;">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-weight="fill">festival</span>
+<div>
+<div class="text-label-md font-bold">City General</div>
+<div class="text-[10px] text-primary">Oxygen: Available</div>
+</div>
+</div>
+</div>
+<div class="absolute bottom-20 left-4 p-4 glass-card rounded-xl shadow-sm border-l-4 border-tertiary">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-tertiary">emergency_share</span>
+<div>
+<div class="text-label-md font-bold">Referral Sent</div>
+<div class="text-[10px] text-tertiary">Tracking active</div>
+</div>
+</div>
+</div>
+<!-- Main Device Mockup -->
+<div class="absolute inset-x-0 bottom-0 top-1/4 flex justify-center">
+<div class="w-48 h-full bg-inverse-surface rounded-t-[32px] border-4 border-on-surface shadow-2xl p-4 flex flex-col gap-4">
+<div class="w-12 h-1.5 bg-surface-variant rounded-full mx-auto mb-2"></div>
+<div class="space-y-3">
+<div class="h-2 w-2/3 bg-primary-fixed-dim/20 rounded"></div>
+<div class="aspect-square w-full rounded-xl bg-primary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-4xl" data-weight="fill">health_metrics</span>
+</div>
+<div class="space-y-1.5">
+<div class="h-2 w-full bg-surface-variant/30 rounded"></div>
+<div class="h-2 w-4/5 bg-surface-variant/30 rounded"></div>
+</div>
+<div class="h-8 w-full bg-primary rounded-lg flex items-center justify-center">
+<div class="h-1.5 w-12 bg-white/40 rounded"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Abstract Decorative Elements -->
+<div class="absolute -top-10 -right-10 w-24 h-24 bg-tertiary/10 rounded-full blur-3xl"></div>
+<div class="absolute -bottom-10 -left-10 w-40 h-40 bg-primary/10 rounded-full blur-3xl"></div>
+</div>
+</div>
+</main>
+<!-- Footer Stats / Trust Bar -->
+<section class="py-12 bg-surface-container-low border-t border-outline-variant/10">
+<div class="max-w-[1280px] mx-auto px-margin-desktop grid grid-cols-2 md:grid-cols-4 gap-8">
+<div class="flex flex-col items-center md:items-start">
+<span class="text-headline-lg font-extrabold text-primary">99.8%</span>
+<span class="text-label-md text-on-surface-variant uppercase tracking-widest">Match Accuracy</span>
+</div>
+<div class="flex flex-col items-center md:items-start">
+<span class="text-headline-lg font-extrabold text-primary">&lt; 10s</span>
+<span class="text-label-md text-on-surface-variant uppercase tracking-widest">Response Time</span>
+</div>
+<div class="flex flex-col items-center md:items-start">
+<span class="text-headline-lg font-extrabold text-primary">150+</span>
+<span class="text-label-md text-on-surface-variant uppercase tracking-widest">Partner Hospitals</span>
+</div>
+<div class="flex flex-col items-center md:items-start">
+<span class="text-headline-lg font-extrabold text-primary">24/7</span>
+<span class="text-label-md text-on-surface-variant uppercase tracking-widest">Support Access</span>
+</div>
+</div>
+</section>
+<!-- Floating Help Button -->
+<div class="fixed bottom-margin-desktop right-margin-desktop z-50">
+<button class="w-14 h-14 rounded-full bg-primary-container text-white shadow-xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95 group">
+<span class="material-symbols-outlined text-[28px] group-hover:rotate-12 transition-transform">chat_bubble</span>
+</button>
+</div>
+<script>
+        // Subtle interaction for the buttons
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mousedown', () => {
+                button.style.transform = 'scale(0.98)';
+            });
+            button.addEventListener('mouseup', () => {
+                button.style.transform = 'scale(1.02)';
+            });
+            button.addEventListener('mouseleave', () => {
+                button.style.transform = 'scale(1)';
+            });
+        });
+
+        // Background parallax effect
+        document.addEventListener('mousemove', (e) => {
+            const moveX = (e.clientX - window.innerWidth / 2) / 50;
+            const moveY = (e.clientY - window.innerHeight / 2) / 50;
+            const heroImage = document.querySelector('.aspect-square.relative');
+            if(heroImage) {
+                heroImage.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            }
+        });
+    </script>
+</body></html>

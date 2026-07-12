@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Patient Access - SafeRef Health</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+tailwind.config = {
+    darkMode: "class",
+    theme: {
+        extend: {
+            colors: {
+                "error-container": "#ffdad6",
+                "surface-container": "#eceef0",
+                "secondary-container": "#d5e0f8",
+                "on-primary-fixed-variant": "#005232",
+                "outline-variant": "#bccabe",
+                "surface-bright": "#f7f9fb",
+                "on-primary": "#ffffff",
+                "error": "#ba1a1a",
+                "on-surface-variant": "#3d4a41",
+                "surface-container-high": "#e6e8ea",
+                "surface-container-low": "#f2f4f6",
+                "background": "#f7f9fb",
+                "on-secondary-container": "#586377",
+                "primary-container": "#780606",
+                "tertiary": "#005ac2",
+                "tertiary-container": "#5290ff",
+                "surface-container-lowest": "#ffffff",
+                "on-background": "#191c1e",
+                "surface": "#f7f9fb",
+                "outline": "#6d7a70",
+                "primary": "#780606",
+                "on-surface": "#191c1e"
+            },
+            borderRadius: {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "2xl": "1rem",
+                "full": "9999px"
+            },
+            spacing: {
+                "stack-sm": "8px",
+                "stack-md": "16px",
+                "stack-lg": "24px",
+                "margin-mobile": "20px",
+                "gutter": "16px",
+                "margin-desktop": "40px",
+                "card-padding": "16px"
+            },
+            fontFamily: {
+                "headline-md": ["Manrope"],
+                "body-md": ["Manrope"],
+                "button": ["Manrope"],
+                "body-lg": ["Manrope"],
+                "headline-lg": ["Manrope"],
+                "label-md": ["Manrope"]
+            },
+            fontSize: {
+                "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                "button": ["16px", {"lineHeight": "20px", "fontWeight": "600"}],
+                "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "headline-lg": ["30px", {"lineHeight": "38px", "fontWeight": "700"}],
+                "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+        }
+    }
+}
+</script>
+<style>
+body { font-family: 'Manrope', sans-serif; }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+.glass-card { background: rgba(255,255,255,0.78); backdrop-filter: blur(16px); }
+</style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<header class="fixed top-0 left-0 right-0 h-16 px-margin-mobile md:px-margin-desktop flex items-center justify-between bg-surface/80 backdrop-blur-md z-50">
+<button class="flex items-center gap-2" onclick="window.location.href='onboarding.html'">
+<span class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-white material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+<span class="text-headline-md font-bold text-primary">SafeRef Health</span>
+</button>
+<button class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full text-primary hover:bg-primary/10 transition-colors" onclick="window.location.href='healthWorkerAuth.html'">
+<span class="material-symbols-outlined text-[18px]">medical_services</span>
+<span class="text-label-md">Health worker</span>
+</button>
+</header>
+<main class="min-h-screen pt-24 pb-10 px-margin-mobile md:px-margin-desktop grid grid-cols-1 lg:grid-cols-12 gap-8 items-center max-w-[1280px] mx-auto">
+<section class="lg:col-span-6 space-y-stack-lg">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span class="text-label-md uppercase">Patient and caregiver access</span>
+</div>
+<div class="space-y-stack-md">
+<h1 class="text-[42px] leading-tight font-extrabold text-on-surface">Create your emergency care profile.</h1>
+<p class="text-body-lg text-on-surface-variant max-w-xl">Register once, then request referrals faster with your contact details, location, and care preferences ready.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-gutter">
+<div class="bg-surface-container-lowest rounded-xl p-card-padding border border-outline-variant/30">
+<span class="material-symbols-outlined text-primary mb-3">emergency_share</span>
+<p class="text-label-md text-on-surface-variant">Fast help requests</p>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-card-padding border border-outline-variant/30">
+<span class="material-symbols-outlined text-tertiary mb-3">location_on</span>
+<p class="text-label-md text-on-surface-variant">Nearby facilities</p>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-card-padding border border-outline-variant/30">
+<span class="material-symbols-outlined text-error mb-3">bloodtype</span>
+<p class="text-label-md text-on-surface-variant">Resource matching</p>
+</div>
+</div>
+</section>
+<section class="lg:col-span-6">
+<div class="glass-card rounded-2xl shadow-xl border border-white/70 p-5 md:p-8 max-w-xl mx-auto">
+<div class="flex bg-surface-container-low rounded-full p-1 mb-stack-lg" role="tablist">
+<button class="auth-tab flex-1 rounded-full py-3 text-button bg-primary text-white" data-panel="register" type="button">Register</button>
+<button class="auth-tab flex-1 rounded-full py-3 text-button text-on-surface-variant" data-panel="login" type="button">Login</button>
+</div>
+<form class="auth-panel space-y-stack-md" id="register-panel">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-gutter">
+<label class="block">
+<span class="text-label-md text-on-surface-variant">FULL NAME</span>
+<input class="mt-2 w-full rounded-xl border-outline-variant bg-surface-container-low py-3 px-4 focus:ring-primary focus:border-primary" required type="text" name="name" placeholder="Adeola Martins"/>
+</label>
+<label class="block">
+<span class="text-label-md text-on-surface-variant">PHONE NUMBER</span>
+<input class="mt-2 w-full rounded-xl border-outline-variant bg-surface-container-low py-3 px-4 focus:ring-primary focus:border-primary" required type="tel" name="phone" placeholder="+234 800 000 0000"/>
+</label>
+</div>
+<label class="block">
+<span class="text-label-md text-on-surface-variant">EMAIL ADDRESS</span>
+<input class="mt-2 w-full rounded-xl border-outline-variant bg-surface-container-low py-3 px-4 focus:ring-primary focus:border-primary" required type="email" name="email" placeholder="you@example.com"/>
+</label>
+<label class="block">
+<span class="text-label-md text-on-surface-variant">CURRENT AREA</span>
+<div class="relative mt-2">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-primary">location_on</span>
+<input class="w-full rounded-xl border-outline-variant bg-surface-container-low py-3 pl-12 pr-4 focus:ring-primary focus:border-primary" required type="text" name="location" placeholder="Ikeja, Lagos"/>
+</div>
+</label>
+<label class="block">
+<span class="text-label-md text-on-surface-variant">PASSWORD</span>
+<input class="mt-2 w-full rounded-xl border-outline-variant bg-surface-container-low py-3 px-4 focus:ring-primary focus:border-primary" required type="password" name="password" placeholder="Create a password"/>
+</label>
+<button class="w-full bg-primary-container text-white py-4 rounded-xl text-button hover:bg-primary transition-colors flex items-center justify-center gap-2" type="submit">
+<span>Get Started</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</form>
+<form class="auth-panel hidden space-y-stack-md" id="login-panel">
+<label class="block">
+<span class="text-label-md text-on-surface-variant">EMAIL OR PHONE</span>
+<input class="mt-2 w-full rounded-xl border-outline-variant bg-surface-container-low py-3 px-4 focus:ring-primary focus:border-primary" required type="text" name="identifier" placeholder="you@example.com"/>
+</label>
+<label class="block">
+<span class="text-label-md text-on-surface-variant">PASSWORD</span>
+<input class="mt-2 w-full rounded-xl border-outline-variant bg-surface-container-low py-3 px-4 focus:ring-primary focus:border-primary" required type="password" name="password" placeholder="Your password"/>
+</label>
+<button class="w-full bg-primary text-white py-4 rounded-xl text-button hover:bg-on-primary-fixed-variant transition-colors flex items-center justify-center gap-2" type="submit">
+<span>Login</span>
+<span class="material-symbols-outlined">login</span>
+</button>
+</form>
+<p class="mt-stack-lg text-center text-label-md text-on-surface-variant">Secure access for patients, caregivers, and family responders.</p>
+</div>
+</section>
+</main>
+<script>
+document.querySelectorAll('.auth-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        document.querySelectorAll('.auth-tab').forEach(item => {
+            item.classList.remove('bg-primary', 'text-white');
+            item.classList.add('text-on-surface-variant');
+        });
+        tab.classList.add('bg-primary', 'text-white');
+        tab.classList.remove('text-on-surface-variant');
+        document.querySelectorAll('.auth-panel').forEach(panel => panel.classList.add('hidden'));
+        document.getElementById(`${tab.dataset.panel}-panel`).classList.remove('hidden');
+    });
+});
+document.querySelectorAll('form').forEach(form => {
+    form.addEventListener('submit', async event => {
+        event.preventDefault();
+        const button = form.querySelector('button[type="submit"]');
+        const original = button.innerHTML;
+        button.disabled = true;
+        button.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span><span>Connecting...</span>';
+
+        const payload = Object.fromEntries(new FormData(form).entries());
+        const endpoint = form.id === 'register-panel'
+            ? 'http://127.0.0.1:5000/api/auth/register'
+            : 'http://127.0.0.1:5000/api/auth/login';
+
+        try {
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.message || 'Request failed');
+
+            localStorage.setItem('saferefUser', JSON.stringify(data.user || payload));
+            window.location.href = 'dashboard.html';
+        } catch (error) {
+            button.innerHTML = `<span>${error.message}</span>`;
+            setTimeout(() => {
+                button.disabled = false;
+                button.innerHTML = original;
+            }, 1800);
+        }
+    });
+});
+</script>
+</body>
+</html>

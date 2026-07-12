@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Facility Setup - SafeRef Health</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+tailwind.config = {
+    darkMode: "class",
+    theme: {
+        extend: {
+            colors: {
+                "error-container": "#ffdad6",
+                "surface-container": "#eceef0",
+                "secondary-container": "#d5e0f8",
+                "on-primary-fixed-variant": "#005232",
+                "outline-variant": "#bccabe",
+                "surface-bright": "#f7f9fb",
+                "on-primary": "#ffffff",
+                "error": "#ba1a1a",
+                "on-surface-variant": "#3d4a41",
+                "surface-container-high": "#e6e8ea",
+                "surface-container-low": "#f2f4f6",
+                "background": "#f7f9fb",
+                "on-secondary-container": "#586377",
+                "primary-container": "#780606",
+                "tertiary": "#005ac2",
+                "tertiary-container": "#5290ff",
+                "surface-container-lowest": "#ffffff",
+                "on-background": "#191c1e",
+                "surface": "#f7f9fb",
+                "outline": "#6d7a70",
+                "primary": "#780606",
+                "on-surface": "#191c1e"
+            },
+            borderRadius: {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "2xl": "1rem",
+                "full": "9999px"
+            },
+            spacing: {
+                "stack-sm": "8px",
+                "stack-md": "16px",
+                "stack-lg": "24px",
+                "margin-mobile": "20px",
+                "gutter": "16px",
+                "margin-desktop": "40px",
+                "card-padding": "16px"
+            },
+            fontFamily: {
+                "headline-md": ["Manrope"],
+                "body-md": ["Manrope"],
+                "button": ["Manrope"],
+                "body-lg": ["Manrope"],
+                "headline-lg": ["Manrope"],
+                "label-md": ["Manrope"]
+            },
+            fontSize: {
+                "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                "button": ["16px", {"lineHeight": "20px", "fontWeight": "600"}],
+                "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "headline-lg": ["30px", {"lineHeight": "38px", "fontWeight": "700"}],
+                "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+        }
+    }
+}
+</script>
+<style>
+body { font-family: 'Manrope', sans-serif; }
+.material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+</style>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 flex-col bg-surface-container-low shadow-sm py-stack-lg z-50">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-primary text-[32px]" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+<span class="text-headline-md font-bold text-primary">SafeRef</span>
+</div>
+<p class="text-label-md text-on-surface-variant">Health worker workspace</p>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-secondary-container/20 text-primary font-bold border-r-4 border-primary" href="healthWorkerFacility.html">
+<span class="material-symbols-outlined">local_hospital</span>
+<span class="text-label-md">Facility Setup</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-secondary-container/20 transition-colors" href="dashboard.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-label-md">Dashboard Preview</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-secondary-container/20 transition-colors" href="nearestfacilities.html">
+<span class="material-symbols-outlined">visibility</span>
+<span class="text-label-md">User View</span>
+</a>
+</nav>
+<div class="px-4 border-t border-outline-variant/30 pt-6">
+<button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-error hover:bg-error-container/20 transition-colors" onclick="window.location.href='onboarding.html'">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-label-md">Log Out</span>
+</button>
+</div>
+</aside>
+<header class="fixed md:left-64 top-0 left-0 right-0 h-16 bg-surface/90 backdrop-blur-md z-40 flex items-center justify-between px-margin-mobile md:px-margin-desktop">
+<button class="md:hidden text-on-surface-variant" onclick="window.location.href='healthWorkerAuth.html'">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<div>
+<h1 class="text-headline-md font-bold text-on-surface">Facility Details</h1>
+<p class="hidden sm:block text-label-md text-on-surface-variant">These details power the patient facility results.</p>
+</div>
+<button class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary" onclick="window.location.href='dashboard.html'">
+<span class="material-symbols-outlined text-[18px]">preview</span>
+<span class="text-label-md">Preview</span>
+</button>
+</header>
+<main class="md:ml-64 pt-24 pb-12 px-margin-mobile md:px-margin-desktop">
+<div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<section class="lg:col-span-4 space-y-stack-md">
+<div class="bg-primary-container rounded-2xl p-6 text-white">
+<span class="material-symbols-outlined text-[44px] mb-4" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<h2 class="text-headline-lg font-bold mb-2">Publish your facility capacity</h2>
+<p class="text-body-md text-white/90">Patients will only see facilities saved here, so keep urgent resources accurate.</p>
+</div>
+<div class="bg-surface-container-lowest rounded-2xl p-card-padding border border-outline-variant/30">
+<h3 class="text-headline-md font-bold mb-3">Saved Facility</h3>
+<div id="saved-preview" class="text-body-md text-on-surface-variant">No facility has been saved yet.</div>
+</div>
+</section>
+<section class="lg:col-span-8 bg-surface-container-lowest rounded-2xl p-5 md:p-8 border border-outline-variant/30 shadow-sm">
+<form id="facility-form" class="space-y-stack-lg">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<label class="block">
+<span class="text-label-md text-on-surface-variant">FACILITY NAME</span>
+<input name="name" class="mt-2 w-full rounded-xl border-outline-variant bg-surface-container-low py-3 px-4 focus:ring-primary focus:border-primary" required type="text" placeholder="Name patients will see"/>
+</label>
+<label class="block">
+<span class="text-label-md text-on-surface-variant">FACILITY TYPE</span>
+<select name="type" class="mt-2 w-full rounded-xl border-outline-variant bg-surface-container-low py-3 px-4 focus:ring-primary focus:border-primary" required>
+<option>General Hospital</option>
+<option>Primary Health Centre</option>
+<option>Specialist Clinic</option>
+<option>Private Hospital</option>
+<option>Emergency Center</option>
+</select>
+</label>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<label class="block">
+<span class="text-label-md text-on-surface-variant">ADDRESS / AREA</span>
+<input name="address" class="mt-2 w-full rounded-xl border-outline-variant bg-surface-container-low py-3 px-4 focus:ring-primary focus:border-primary" required type="text" placeholder="Surulere, Lagos"/>
+</label>
+<label class="block">
+<span class="text-label-md text-on-surface-variant">CONTACT PHONE</span>
+<input name="phone" class="mt-2 w-full rounded-xl border-outline-variant bg-surface-container-low py-3 px-4 focus:ring-primary focus:border-primary" required type="tel" placeholder="+234 800 000 0000"/>
+</label>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter">
+<label class="block">
+<span class="text-label-md text-on-surface-variant">OPENING STATUS</span>
+<select name="status" class="mt-2 w-full rounded-xl border-outline-variant bg-surface-container-low py-3 px-4 focus:ring-primary focus:border-primary" required>
+<option>Open 24/7</option>
+<option>Open</option>
+<option>Limited Hours</option>
+<option>Temporarily Full</option>
+</select>
+</label>
+<label class="block">
+<span class="text-label-md text-on-surface-variant">OXYGEN UNITS</span>
+<input name="oxygen" class="mt-2 w-full rounded-xl border-outline-variant bg-surface-container-low py-3 px-4 focus:ring-primary focus:border-primary" required min="0" type="number" value="0"/>
+</label>
+<label class="block">
+<span class="text-label-md text-on-surface-variant">AVAILABLE BEDS</span>
+<input name="beds" class="mt-2 w-full rounded-xl border-outline-variant bg-surface-container-low py-3 px-4 focus:ring-primary focus:border-primary" required min="0" type="number" value="0"/>
+</label>
+</div>
+<div>
+<span class="text-label-md text-on-surface-variant">AVAILABLE SERVICES</span>
+<div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3">
+<label class="flex items-center gap-3 bg-surface-container-low rounded-xl p-3">
+<input name="services" value="Emergency Care" type="checkbox" class="rounded border-outline text-primary focus:ring-primary"/>
+<span class="text-body-md">Emergency Care</span>
+</label>
+<label class="flex items-center gap-3 bg-surface-container-low rounded-xl p-3">
+<input name="services" value="Maternal Care" type="checkbox" class="rounded border-outline text-primary focus:ring-primary"/>
+<span class="text-body-md">Maternal Care</span>
+</label>
+<label class="flex items-center gap-3 bg-surface-container-low rounded-xl p-3">
+<input name="services" value="Pediatric Care" type="checkbox" class="rounded border-outline text-primary focus:ring-primary"/>
+<span class="text-body-md">Pediatric Care</span>
+</label>
+<label class="flex items-center gap-3 bg-surface-container-low rounded-xl p-3">
+<input name="services" value="Ambulance Support" type="checkbox" class="rounded border-outline text-primary focus:ring-primary"/>
+<span class="text-body-md">Ambulance Support</span>
+</label>
+</div>
+</div>
+<div>
+<span class="text-label-md text-on-surface-variant">BLOOD TYPES AVAILABLE</span>
+<div class="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-3">
+<label class="flex items-center gap-2 bg-surface-container-low rounded-xl p-3"><input name="blood" value="O+" type="checkbox" class="rounded border-outline text-primary focus:ring-primary"/><span>O+</span></label>
+<label class="flex items-center gap-2 bg-surface-container-low rounded-xl p-3"><input name="blood" value="O-" type="checkbox" class="rounded border-outline text-primary focus:ring-primary"/><span>O-</span></label>
+<label class="flex items-center gap-2 bg-surface-container-low rounded-xl p-3"><input name="blood" value="A+" type="checkbox" class="rounded border-outline text-primary focus:ring-primary"/><span>A+</span></label>
+<label class="flex items-center gap-2 bg-surface-container-low rounded-xl p-3"><input name="blood" value="B+" type="checkbox" class="rounded border-outline text-primary focus:ring-primary"/><span>B+</span></label>
+</div>
+</div>
+<label class="block">
+<span class="text-label-md text-on-surface-variant">NOTES FOR PATIENTS</span>
+<textarea name="notes" class="mt-2 w-full rounded-xl border-outline-variant bg-surface-container-low py-3 px-4 focus:ring-primary focus:border-primary" rows="4" placeholder="Example: Call before arrival for trauma cases."></textarea>
+</label>
+<div class="flex flex-col sm:flex-row gap-3">
+<button class="flex-1 bg-primary-container text-white py-4 rounded-xl text-button hover:bg-primary transition-colors flex items-center justify-center gap-2" type="submit">
+<span>Save Facility Details</span>
+<span class="material-symbols-outlined">save</span>
+</button>
+<button class="sm:w-auto px-6 py-4 rounded-xl border border-outline text-on-surface-variant hover:bg-surface-container transition-colors" type="button" id="clear-facility">
+Clear Saved Data
+</button>
+</div>
+</form>
+</section>
+</div>
+</main>
+<script>
+const storageKey = 'saferefFacilities';
+const form = document.getElementById('facility-form');
+const preview = document.getElementById('saved-preview');
+
+function getFacilities() {
+    try {
+        return JSON.parse(localStorage.getItem(storageKey)) || [];
+    } catch {
+        return [];
+    }
+}
+
+function renderPreview() {
+    const facilities = getFacilities();
+    if (!facilities.length) {
+        preview.textContent = 'No facility has been saved yet.';
+        return;
+    }
+    const facility = facilities[0];
+    preview.innerHTML = `
+        <div class="space-y-2">
+            <p class="font-bold text-on-surface">${facility.name}</p>
+            <p>${facility.type} - ${facility.address}</p>
+            <p>${facility.status} - ${facility.oxygen} oxygen units - ${facility.beds} beds</p>
+        </div>
+    `;
+}
+
+function fillForm() {
+    const facility = getFacilities()[0];
+    if (!facility) return;
+    Object.entries(facility).forEach(([key, value]) => {
+        if (Array.isArray(value)) return;
+        if (form.elements[key]) form.elements[key].value = value;
+    });
+    form.querySelectorAll('input[name="services"]').forEach(input => input.checked = facility.services.includes(input.value));
+    form.querySelectorAll('input[name="blood"]').forEach(input => input.checked = facility.blood.includes(input.value));
+}
+
+form.addEventListener('submit', async event => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const facility = {
+        id: Date.now(),
+        name: data.get('name').trim(),
+        type: data.get('type'),
+        address: data.get('address').trim(),
+        phone: data.get('phone').trim(),
+        status: data.get('status'),
+        oxygen: Number(data.get('oxygen') || 0),
+        beds: Number(data.get('beds') || 0),
+        services: data.getAll('services'),
+        blood: data.getAll('blood'),
+        notes: data.get('notes').trim()
+    };
+
+    localStorage.setItem(storageKey, JSON.stringify([facility]));
+    renderPreview();
+
+    const button = form.querySelector('button[type="submit"]');
+    const original = button.innerHTML;
+    button.disabled = true;
+    button.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span><span>Saving...</span>';
+
+    try {
+        const response = await fetch('http://127.0.0.1:5000/api/hospitals/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(facility)
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.message || 'Could not save');
+
+        button.innerHTML = '<span class="material-symbols-outlined">check_circle</span><span>Saved</span>';
+    } catch (error) {
+        button.innerHTML = `<span>${error.message}</span>`;
+    } finally {
+        setTimeout(() => {
+            button.disabled = false;
+            button.innerHTML = original;
+        }, 1400);
+    }
+});
+
+document.getElementById('clear-facility').addEventListener('click', () => {
+    localStorage.removeItem(storageKey);
+    form.reset();
+    renderPreview();
+});
+
+renderPreview();
+fillForm();
+</script>
+</body>
+</html>

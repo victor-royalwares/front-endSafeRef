@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Facility Details - SafeRef Health</title>
+<!-- Google Fonts: Manrope -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "surface-container": "#eceef0",
+                        "secondary-container": "#d5e0f8",
+                        "on-primary-fixed-variant": "#005232",
+                        "outline-variant": "#bccabe",
+                        "on-secondary-fixed": "#111c2d",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "inverse-on-surface": "#eff1f3",
+                        "secondary-fixed": "#d8e3fb",
+                        "on-primary-container": "#00331d",
+                        "on-surface-variant": "#3d4a41",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-primary-fixed": "#002111",
+                        "surface-container-high": "#e6e8ea",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f2f4f6",
+                        "background": "#f7f9fb",
+                        "on-secondary-container": "#586377",
+                        "primary-container": "#780606",
+                        "surface-dim": "#d8dadc",
+                        "on-tertiary-fixed": "#001a42",
+                        "inverse-primary": "#ff8e8e",
+                        "tertiary": "#005ac2",
+                        "primary-fixed-dim": "#ff8e8e",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "secondary": "#545f73",
+                        "primary-fixed": "#78fbb6",
+                        "tertiary-container": "#5290ff",
+                        "surface-tint": "#780606",
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary-fixed-variant": "#004395",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#191c1e",
+                        "surface": "#f7f9fb",
+                        "outline": "#6d7a70",
+                        "tertiary-fixed": "#d8e2ff",
+                        "tertiary-fixed-dim": "#adc6ff",
+                        "primary": "#780606",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "on-tertiary-container": "#002960",
+                        "on-surface": "#191c1e",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "stack-lg": "24px",
+                        "margin-mobile": "20px",
+                        "gutter": "16px",
+                        "margin-desktop": "40px",
+                        "card-padding": "16px",
+                        "unit": "4px",
+                        "stack-md": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Manrope"],
+                        "body-md": ["Manrope"],
+                        "headline-lg-mobile": ["Manrope"],
+                        "button": ["Manrope"],
+                        "body-lg": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "label-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "button": ["16px", {"lineHeight": "20px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .custom-scrollbar::-webkit-scrollbar { width: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e0e3e5; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen overflow-x-hidden">
+<!-- Desktop Side Navigation Shell -->
+<aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 flex-col shadow-sm bg-surface-container-low py-stack-lg z-50" id="side-nav">
+<div class="px-6 mb-8">
+<h1 class="text-headline-md font-headline-md font-bold text-primary">SafeRef Health</h1>
+<p class="text-label-md font-label-md text-on-surface-variant">Emergency Referral System</p>
+</div>
+<nav class="flex-1 px-4 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors hover:bg-secondary-container/20 text-on-surface-variant" href="dashboard.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-body-md font-body-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors hover:bg-secondary-container/20 text-on-surface-variant" href="requestHelp.html">
+<span class="material-symbols-outlined">assignment</span>
+<span class="text-body-md font-body-md">Referrals</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors bg-secondary-container/20 text-primary font-bold border-r-4 border-primary" href="nearestfacilities.html">
+<span class="material-symbols-outlined">festival</span>
+<span class="text-body-md font-body-md">Facilities</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors hover:bg-secondary-container/20 text-on-surface-variant" href="maps.html">
+<span class="material-symbols-outlined">map</span>
+<span class="text-body-md font-body-md">Map</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-colors hover:bg-secondary-container/20 text-on-surface-variant" href="dashboard.html">
+<span class="material-symbols-outlined">person</span>
+<span class="text-body-md font-body-md">Profile</span>
+</a>
+</nav>
+<div class="px-4 mt-auto border-t border-outline-variant pt-4 space-y-2">
+<a class="flex items-center gap-3 px-4 py-2 rounded-xl transition-colors hover:bg-secondary-container/20 text-on-surface-variant" href="dashboard.html">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-label-md font-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 rounded-xl transition-colors hover:bg-secondary-container/20 text-on-surface-variant" href="onboarding.html">
+<span class="material-symbols-outlined">logout</span>
+<span class="text-label-md font-label-md">Log Out</span>
+</a>
+</div>
+</aside>
+<!-- Top App Bar -->
+<header class="md:pl-64 fixed top-0 w-full z-40">
+<div class="flex justify-between items-center h-16 px-margin-desktop bg-surface w-full">
+<div class="flex items-center gap-4">
+<button class="md:hidden p-2 text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+<span class="hidden md:block text-headline-md font-headline-md font-bold text-primary">SafeRef Health</span>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary text-on-primary px-4 py-2 rounded-full text-label-md font-label-md hover:opacity-90 transition-opacity">
+                    Emergency Status
+                </button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">help</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a healthcare worker in a hospital environment. The lighting is bright and clean, emphasizing trust and professional empathy. Soft focus background shows a clinical but modern hallway with subtle teal and white tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDWCrOrZMRflHSyyysBiQNk09LISXR96JopPanSND6A8OS7ytzxo-oVtJ8sXeWDNKR96-97tQZ924c8RrgoLsvCuGh-x-swh8UXmvlJMmThUi2bXW3VrXzP01x4eU1NkU5PpmFQCuFJ1NFMXfKF6jxwu3Yv_bwCkACkZbqui6iygSWjgc72VB4xeKVd_Lzyx0fByjFNQjQi97IwOWQLrpdhwNKkn-qpJ_9qzOH7yyr06H1gUxD9zE0tfg"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-16 pb-24 md:pl-64 md:pb-0 min-h-screen">
+<div class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-stack-lg">
+<!-- Breadcrumbs / Navigation -->
+<div class="flex items-center gap-2 mb-stack-lg">
+<button class="flex items-center gap-1 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-sm">arrow_back</span>
+<span class="text-label-md font-label-md">Back to Facilities</span>
+</button>
+</div>
+<!-- Bento Layout Container -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Left Column: Hero Image & Key Details (Main Card) -->
+<div class="lg:col-span-8 space-y-gutter">
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-surface-variant/50">
+<!-- Facility Hero Image -->
+<div class="relative h-64 md:h-[400px]">
+<img class="w-full h-full object-cover" data-alt="A high-quality architectural photo of the Lagos State Medical Center, a modern healthcare facility. The building features clean white lines, large glass windows, and lush green landscaping around the entrance. The lighting is warm morning sun, creating a welcoming and calm atmosphere. Professional photography style with a focus on trust and accessibility." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnT1bpjFWuOFf8D4xftImzr2YllZweNdRU8-LKuMzYpR9KD1tqr4UOFQ-QS3c60jEJN3C7P-pUCShzJfuGVbrrYPOdWEOQgFiGLbTvY_AvIYWOwdTK9KbiDzkd0yR43d07ueRjPH2uG9BNXt4O12nMo3htpawCfrKu15sozZ8YdTCg-GYZuG7O6rfI924pUcYjxYaj5K_EssbhRBP5xVa5N_oltqYSvnO9gIdEhofNxySbpQ72sefz3w"/>
+<div class="absolute top-4 right-4 flex gap-2">
+<span class="bg-primary-container text-on-primary-container px-3 py-1 rounded-full text-label-md font-label-md">Open 24/7</span>
+<span class="bg-surface-container-lowest/90 backdrop-blur text-primary px-3 py-1 rounded-full text-label-md font-label-md border border-primary/20">3.4 km away</span>
+</div>
+</div>
+<!-- Header Info -->
+<div class="p-card-padding md:p-8">
+<div class="flex flex-col md:flex-row md:justify-between md:items-start gap-4">
+<div>
+<h2 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg text-on-surface">Lagos State Medical Center</h2>
+<div class="flex items-center gap-1 text-on-surface-variant mt-1">
+<span class="material-symbols-outlined text-base">location_on</span>
+<span class="text-body-md font-body-md">Surulere, Lagos, Nigeria</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 px-4 py-2 border-1.5 border-primary text-primary rounded-full hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined text-lg">call</span>
+<span class="text-button">Contact</span>
+</button>
+<button class="flex items-center justify-center w-12 h-12 bg-surface-container-low text-on-surface-variant rounded-full hover:bg-secondary-container/20 transition-colors">
+<span class="material-symbols-outlined">share</span>
+</button>
+</div>
+</div>
+<p class="mt-6 text-body-lg font-body-lg text-on-surface-variant leading-relaxed">
+                                A premier public healthcare institution providing specialized emergency services, surgical interventions, and comprehensive maternal care. Lagos State Medical Center is equipped with state-of-the-art diagnostic tools and an AI-integrated referral desk for seamless patient transfers.
+                            </p>
+</div>
+</div>
+<!-- Resources Grid -->
+<div class="bg-surface-container-lowest p-card-padding md:p-8 rounded-xl shadow-sm border border-surface-variant/50">
+<h3 class="text-headline-md font-headline-md mb-stack-lg">Available Resources</h3>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<!-- Resource Item -->
+<div class="flex items-center justify-between p-4 rounded-xl bg-background border border-surface-variant/30 hover:border-primary/30 transition-all group">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">bloodtype</span>
+</div>
+<div>
+<p class="text-body-md font-bold text-on-surface">Blood [O+]</p>
+<p class="text-label-md font-label-md text-on-surface-variant">Critical Resource</p>
+</div>
+</div>
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-label-md font-bold">12 Units</span>
+</div>
+<div class="flex items-center justify-between p-4 rounded-xl bg-background border border-surface-variant/30 hover:border-primary/30 transition-all group">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined">air</span>
+</div>
+<div>
+<p class="text-body-md font-bold text-on-surface">Oxygen</p>
+<p class="text-label-md font-label-md text-on-surface-variant">High Pressure Tanks</p>
+</div>
+</div>
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-label-md font-bold">Available</span>
+</div>
+<div class="flex items-center justify-between p-4 rounded-xl bg-background border border-surface-variant/30 hover:border-primary/30 transition-all group">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">child_care</span>
+</div>
+<div>
+<p class="text-body-md font-bold text-on-surface">Delivery Room</p>
+<p class="text-label-md font-label-md text-on-surface-variant">Maternal Support</p>
+</div>
+</div>
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-label-md font-bold">Available</span>
+</div>
+<div class="flex items-center justify-between p-4 rounded-xl bg-background border border-surface-variant/30 hover:border-primary/30 transition-all group">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">person_pin_circle</span>
+</div>
+<div>
+<p class="text-body-md font-bold text-on-surface">Doctors on Duty</p>
+<p class="text-label-md font-label-md text-on-surface-variant">Specialized Care</p>
+</div>
+</div>
+<span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-label-md font-bold">Yes</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Map & Action -->
+<div class="lg:col-span-4 space-y-gutter">
+<!-- Map Preview Card -->
+<div class="bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-surface-variant/50 sticky top-20">
+<div class="relative h-64">
+<div class="absolute inset-0 bg-surface-dim flex items-center justify-center">
+<div class="w-full h-full" data-location="Surulere, Lagos" style="">
+<img class="w-full h-full object-cover" data-alt="A clean, minimalist map centered on Surulere, Lagos, showing the location of Lagos State Medical Center. The map style is corporate and functional, with healthcare facilities highlighted in teal-green pins. The route from the current location to the hospital is marked by a subtle glowing line, emphasizing speed and efficiency." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDU_6bisuZbNrXMtZRJwFoUx9XPShnyKOgFE6qSK1XEcbYY_sf9ipeeOHU8RpIuH1w4lG39sl3eSlmY0-fglvey7SMmy-ZVEPYE6MCBnng5HC3aMBvCgULedefn05SMDCRFc7azvuDgGYsl7RVVgBSapld1wwwacjsfNrKBrl2RocUbRXMPeRfveX8cuFQeaD8T5MM2nbdpFlGcp7qRBDpmqYksWCPurVDgj9bkYMhD02857xV_wMJX2g"/>
+</div>
+</div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+<div class="absolute bottom-4 left-4 right-4">
+<div class="bg-white/95 backdrop-blur p-3 rounded-lg flex items-center justify-between">
+<div>
+<p class="text-label-md font-bold text-on-surface">Current Traffic</p>
+<p class="text-body-md text-primary font-bold">12 min (5.2 km)</p>
+</div>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">directions_car</span>
+</div>
+</div>
+</div>
+<div class="p-card-padding space-y-4">
+<button class="w-full bg-primary text-on-primary h-14 rounded-xl text-button hover:opacity-90 transition-all active:scale-[0.98] flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">navigation</span>
+                                Get Directions
+                            </button>
+<button class="w-full bg-surface-container-low text-primary h-14 rounded-xl text-button border border-primary/20 hover:bg-primary/5 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">send_to_mobile</span>
+                                Request Referral
+                            </button>
+</div>
+</div>
+<!-- Additional Details Card -->
+<div class="bg-surface-container-lowest p-card-padding rounded-xl shadow-sm border border-surface-variant/50">
+<h4 class="text-body-md font-bold text-on-surface mb-3">Facility Contact</h4>
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">phone</span>
+<span class="text-body-md text-on-surface-variant">0803 123 4567</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">mail</span>
+<span class="text-body-md text-on-surface-variant">info@lsmc.gov.ng</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Mobile Bottom Navigation Shell -->
+<nav class="md:hidden fixed bottom-0 left-0 right-0 h-16 bg-surface-container-low flex justify-around items-center px-4 z-50">
+<button class="flex flex-col items-center gap-1 text-on-surface-variant" onclick="window.location.href='dashboard.html'">
+<span class="material-symbols-outlined">home</span>
+<span class="text-[10px] font-label-md">Home</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-primary" onclick="window.location.href='nearestfacilities.html'">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">festival</span>
+<span class="text-[10px] font-bold">Facilities</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant" onclick="window.location.href='requestHelp.html'">
+<span class="material-symbols-outlined">assignment</span>
+<span class="text-[10px] font-label-md">Referrals</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant" onclick="window.location.href='dashboard.html'">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-label-md">Profile</span>
+</button>
+</nav>
+<!-- Micro-interaction Script -->
+<script>
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                btn.classList.add('scale-95');
+                setTimeout(() => btn.classList.remove('scale-95'), 100);
+            });
+        });
+
+        // Sticky Nav Transition
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header .bg-surface');
+            if (window.scrollY > 20) {
+                header.classList.add('shadow-md');
+            } else {
+                header.classList.remove('shadow-md');
+            }
+        });
+    </script>
+</body></html>

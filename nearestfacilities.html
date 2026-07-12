@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SafeRef Health - Results</title>
+<!-- Google Fonts: Manrope -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "error-container": "#ffdad6",
+                    "surface-container": "#eceef0",
+                    "secondary-container": "#d5e0f8",
+                    "on-primary-fixed-variant": "#005232",
+                    "outline-variant": "#bccabe",
+                    "on-secondary-fixed": "#111c2d",
+                    "surface-bright": "#f7f9fb",
+                    "on-secondary": "#ffffff",
+                    "on-primary": "#ffffff",
+                    "error": "#ba1a1a",
+                    "inverse-on-surface": "#eff1f3",
+                    "secondary-fixed": "#d8e3fb",
+                    "on-primary-container": "#00331d",
+                    "on-surface-variant": "#3d4a41",
+                    "surface-variant": "#e0e3e5",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-primary-fixed": "#002111",
+                    "surface-container-high": "#e6e8ea",
+                    "on-error": "#ffffff",
+                    "surface-container-low": "#f2f4f6",
+                    "background": "#f7f9fb",
+                    "on-secondary-container": "#586377",
+                    "primary-container": "#780606",
+                    "surface-dim": "#d8dadc",
+                    "on-tertiary-fixed": "#001a42",
+                    "inverse-primary": "#ff8e8e",
+                    "tertiary": "#005ac2",
+                    "primary-fixed-dim": "#ff8e8e",
+                    "on-secondary-fixed-variant": "#3c475a",
+                    "secondary": "#545f73",
+                    "primary-fixed": "#78fbb6",
+                    "tertiary-container": "#5290ff",
+                    "surface-tint": "#780606",
+                    "inverse-surface": "#2d3133",
+                    "on-tertiary-fixed-variant": "#004395",
+                    "surface-container-lowest": "#ffffff",
+                    "on-background": "#191c1e",
+                    "surface": "#f7f9fb",
+                    "outline": "#6d7a70",
+                    "tertiary-fixed": "#d8e2ff",
+                    "tertiary-fixed-dim": "#adc6ff",
+                    "primary": "#780606",
+                    "on-tertiary": "#ffffff",
+                    "secondary-fixed-dim": "#bcc7de",
+                    "on-tertiary-container": "#002960",
+                    "on-surface": "#191c1e",
+                    "on-error-container": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-sm": "8px",
+                    "stack-lg": "24px",
+                    "margin-mobile": "20px",
+                    "gutter": "16px",
+                    "margin-desktop": "40px",
+                    "card-padding": "16px",
+                    "unit": "4px",
+                    "stack-md": "16px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Manrope"],
+                    "body-md": ["Manrope"],
+                    "headline-lg-mobile": ["Manrope"],
+                    "button": ["Manrope"],
+                    "body-lg": ["Manrope"],
+                    "headline-lg": ["Manrope"],
+                    "label-md": ["Manrope"]
+            },
+            "fontSize": {
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "button": ["16px", {"lineHeight": "20px", "fontWeight": "600"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 16px;
+        }
+        .card-shadow {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+        }
+        .glass-morphism {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen">
+<!-- SideNavBar (Desktop Shell) -->
+<aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 flex-col bg-surface-container-low shadow-sm py-stack-lg z-50">
+<div class="px-6 mb-10">
+<h1 class="text-headline-md font-headline-md font-bold text-primary">SafeRef Health</h1>
+<p class="text-label-md font-label-md text-on-surface-variant">Emergency Referral System</p>
+</div>
+<nav class="flex-grow flex flex-col px-4 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:bg-secondary-container/20 text-on-surface-variant font-label-md" href="dashboard.html">
+<span class="material-symbols-outlined">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:bg-secondary-container/20 text-on-surface-variant font-label-md" href="requestHelp.html">
+<span class="material-symbols-outlined">assignment</span>
+                Referrals
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-primary font-bold border-r-4 border-primary" href="nearestfacilities.html">
+<span class="material-symbols-outlined">festival</span>
+                Facilities
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:bg-secondary-container/20 text-on-surface-variant font-label-md" href="maps.html">
+<span class="material-symbols-outlined">map</span>
+                Map
+            </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:bg-secondary-container/20 text-on-surface-variant font-label-md" href="dashboard.html">
+<span class="material-symbols-outlined">person</span>
+                Profile
+            </a>
+</nav>
+<div class="px-4 mt-auto space-y-2">
+<button class="w-full bg-primary-container text-white py-3 rounded-xl font-button shadow-md active:scale-[0.98] transition-transform flex items-center justify-center gap-2" onclick="window.location.href='requestHelp.html'">
+<span class="material-symbols-outlined">add_alert</span>
+                Request Help
+            </button>
+<div class="pt-6 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-primary transition-colors text-label-md" href="dashboard.html">
+<span class="material-symbols-outlined">settings</span>
+                    Settings
+                </a>
+<a class="flex items-center gap-3 px-4 py-2 text-on-surface-variant hover:text-error transition-colors text-label-md" href="onboarding.html">
+<span class="material-symbols-outlined">logout</span>
+                    Log Out
+                </a>
+</div>
+</div>
+</aside>
+<!-- TopAppBar -->
+<header class="flex justify-between items-center h-16 px-6 md:px-margin-desktop w-full fixed top-0 bg-surface z-40 md:pl-72">
+<div class="flex items-center gap-4">
+<button class="md:hidden text-on-surface">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="hidden md:flex items-center bg-surface-container-low px-4 py-2 rounded-full w-96 border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface-variant mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-full" placeholder="Search facilities..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex bg-error-container text-on-error-container px-3 py-1 rounded-full text-label-md font-bold items-center gap-2">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-error opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-error"></span>
+</span>
+                Emergency Status
+            </div>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors">notifications</span>
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors">help</span>
+<div class="w-8 h-8 rounded-full bg-secondary-fixed overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a female healthcare worker in a clean clinic setting. She is wearing a stethoscope and a light teal medical scrub, smiling warmly at the camera. The lighting is bright and natural, reinforcing a sense of trust and modern medical care." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqfhMOJJZitzO8dBGxELfIy7NS_xD8nWgfZMP7xs4nFf_Z7s7sHJPFg6Y63trYMKpmYjxqDtcm_my6BkCc2ShMAt9BVAl8rFMc3vzejhfgvBJ7FfqZpuAzcGFKPSpqYLdB0C0451WbO-ewidswPtDgmLQx8mlqItnScKp7vJoFGDXeWoMli6zh_81Vd-1IgkRzqfo_FHqwOlo8IIiPndw5CFKOWTv7D-NdUqJ3jGam2ShisUbRr3weBQ"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="pt-20 pb-24 px-4 md:px-margin-desktop md:ml-64 min-h-screen">
+<!-- Results Header Section -->
+<section class="max-w-6xl mx-auto mb-stack-lg">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div class="space-y-1">
+<button class="flex items-center gap-2 text-primary font-button hover:opacity-80 transition-opacity mb-2">
+<span class="material-symbols-outlined">arrow_back</span>
+                        Back
+                    </button>
+<h2 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg text-on-surface" id="results-title">Here are the best matches</h2>
+<p class="text-body-md text-on-surface-variant max-w-lg" id="results-description">Facility results are based on details submitted by health workers.</p>
+</div>
+<div class="flex gap-2">
+<button class="flex items-center gap-2 bg-surface-container-lowest border border-outline-variant px-4 py-2 rounded-xl text-button hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">filter_list</span>
+                        Filter
+                    </button>
+<button class="flex items-center gap-2 bg-primary-container text-on-primary px-6 py-2 rounded-xl font-button shadow-md hover:opacity-90 active:scale-95 transition-all">
+<span class="material-symbols-outlined">map</span>
+                        View on Map
+                    </button>
+</div>
+</div>
+</section>
+<!-- Facility List - High-end Card Layout -->
+<section class="max-w-6xl mx-auto space-y-gutter" id="facility-results" style="display: none;">
+<!-- Best Match Card -->
+<div class="bg-surface-container-lowest rounded-3xl p-6 border-2 border-primary shadow-sm relative overflow-hidden group hover:shadow-lg transition-all duration-300">
+<div class="absolute top-0 right-0 bg-primary text-white px-4 py-1 rounded-bl-2xl text-label-md font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                    Best Match
+                </div>
+<div class="flex flex-col md:flex-row gap-6">
+<!-- Facility Image Placeholder -->
+<div class="w-full md:w-48 h-32 md:h-40 rounded-2xl overflow-hidden bg-surface-variant">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A clean, modern exterior view of Lagos State Medical Center, featuring sleek glass windows and a prominent green medical cross logo. The building is surrounded by neatly landscaped greenery and a clear blue sky, emphasizing a high-end clinical aesthetic and professional reliability." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0EHQcuvewNhhHUkCeFLvlCBZWCx5DDE2S7D7ONuQI1oFym1hkJLmpQ8yudf-dXgyHSglR_OiViADNGpig61X0EUd-gh3KfTt7sFVKA0Wkci46zNXLOq6_eDbqkxX2gqCqn5VyYTEDrADWSBNW9Vq4BCWVLfh_lqKLTUekuq5gPoUhgLdrrzRk1wV_jwZbSGVAcnEuiB-52TRRxjiPLFrRcjQ7-zur3X2LfO9KBJdKAwqc60HrySZMSg"/>
+</div>
+<div class="flex-grow space-y-4">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<h3 class="text-headline-md font-headline-md text-on-surface">Lagos State Medical Center</h3>
+<span class="bg-primary-fixed text-on-primary-fixed-variant px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider">Open 24/7</span>
+</div>
+<div class="flex items-center gap-4 text-label-md text-on-surface-variant">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                                    Surulere, Lagos (1.2 km away)
+                                </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                                    5 min drive
+                                </span>
+</div>
+</div>
+<!-- Resource Chips -->
+<div class="flex flex-wrap gap-2">
+<div class="flex items-center gap-2 bg-secondary-container/40 px-3 py-1.5 rounded-xl border border-secondary-container">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">bloodtype</span>
+<span class="text-label-md font-semibold text-on-secondary-container">Blood (O+) Available</span>
+</div>
+<div class="flex items-center gap-2 bg-secondary-container/40 px-3 py-1.5 rounded-xl border border-secondary-container">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">air</span>
+<span class="text-label-md font-semibold text-on-secondary-container">Oxygen (12 Units)</span>
+</div>
+<div class="flex items-center gap-2 bg-secondary-container/40 px-3 py-1.5 rounded-xl border border-secondary-container">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">emergency</span>
+<span class="text-label-md font-semibold text-on-secondary-container">Pediatrics Ready</span>
+</div>
+</div>
+</div>
+<div class="flex md:flex-col justify-end gap-3 min-w-[140px]">
+<button class="flex-grow md:flex-none bg-surface border border-outline px-4 py-2.5 rounded-xl text-button hover:bg-surface-variant transition-colors flex items-center justify-center gap-2">
+                            Details
+                        </button>
+<button class="flex-grow md:flex-none bg-primary text-on-primary px-4 py-2.5 rounded-xl text-button shadow-md hover:bg-on-primary-fixed-variant transition-all flex items-center justify-center gap-2">
+                            Refer Now
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Second Match Card -->
+<div class="bg-surface-container-lowest rounded-3xl p-6 border border-outline-variant shadow-sm group hover:shadow-md transition-all duration-300">
+<div class="flex flex-col md:flex-row gap-6">
+<div class="w-full md:w-48 h-32 md:h-40 rounded-2xl overflow-hidden bg-surface-variant">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="The modern architectural facade of Gbagada General Hospital, showing clean white walls and a large, welcoming entrance. Ambulances are neatly parked in the background under a shaded area. The atmosphere is calm and professional, consistent with a high-standard medical facility in a light-mode UI style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuClegTQSToUF-p3ha0_brQ_s37CskJjqi9dW8kj7E9DDkTRrsuU5AHNTToccST-tPJ07gCk_NAb3bWSijz-ESI1o5Qf3Vaz73-J3NfhxuO-L3bmcRpd-xHpR9zDLZJjb8V73TObLuKQozkOtWH8EMWCW-7Nkdu7pQFW8uSJTuTRbaTb7gncP5MK_cBQEkOCVAQaxxodoWZe-MmSE-yHlRL-T-jkWaHCg2Qn7wVK_cJv9Rdys0Q7Wx_MCQ"/>
+</div>
+<div class="flex-grow space-y-4">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<h3 class="text-headline-md font-headline-md text-on-surface">Gbagada General Hospital</h3>
+<span class="bg-surface-variant text-on-surface-variant px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider">Busier than usual</span>
+</div>
+<div class="flex items-center gap-4 text-label-md text-on-surface-variant">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                                    Gbagada, Lagos (3.4 km away)
+                                </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                                    12 min drive
+                                </span>
+</div>
+</div>
+<!-- Resource Chips -->
+<div class="flex flex-wrap gap-2">
+<div class="flex items-center gap-2 bg-surface-container px-3 py-1.5 rounded-xl opacity-80">
+<span class="material-symbols-outlined text-primary">bloodtype</span>
+<span class="text-label-md font-semibold text-on-surface-variant">Blood O+ Limited</span>
+</div>
+<div class="flex items-center gap-2 bg-secondary-container/40 px-3 py-1.5 rounded-xl border border-secondary-container">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">air</span>
+<span class="text-label-md font-semibold text-on-secondary-container">Oxygen (8 Units)</span>
+</div>
+</div>
+</div>
+<div class="flex md:flex-col justify-end gap-3 min-w-[140px]">
+<button class="flex-grow md:flex-none bg-surface border border-outline px-4 py-2.5 rounded-xl text-button hover:bg-surface-variant transition-colors flex items-center justify-center gap-2">
+                            Details
+                        </button>
+<button class="flex-grow md:flex-none bg-primary text-on-primary px-4 py-2.5 rounded-xl text-button shadow-md hover:bg-on-primary-fixed-variant transition-all flex items-center justify-center gap-2">
+                            Refer Now
+                        </button>
+</div>
+</div>
+</div>
+<!-- Third Match Card - Smaller Asymmetric -->
+<div class="bg-surface-container-lowest rounded-3xl p-6 border border-outline-variant shadow-sm group hover:shadow-md transition-all duration-300">
+<div class="flex flex-col md:flex-row gap-6">
+<div class="w-full md:w-48 h-32 md:h-40 rounded-2xl overflow-hidden bg-surface-variant">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A wide view of Ikeja General Hospital, showcasing a multi-story medical building with large windows and a clean, accessible layout. The scene is set in bright daylight with a few professional staff visible in the distance, conveying an image of a bustling but organized and reliable health facility." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlr95pf0Hv8ET3IhRKbgc9dZNp0ih2qioMHf3pe1OqukKQ6n8zkbZ0WgVWNJeOmXcEZrsvy2a_PlGmUpX2oPYfyQ_CezJIe7TsIkR3OoK6XLiPnzHfGAVVgnROLFIHggmud3q9e8K8WqRAqw09Mkzd5wbhgjPeLcSdRzTEI33r6oHkuQiQ4gcwLfimVUQua64WsDP0RPiQfJW2EmgmZNqd6nTIYtjMX6hjjOLBBkuGCN3RKIH64rlG0g"/>
+</div>
+<div class="flex-grow space-y-4">
+<div>
+<div class="flex items-center gap-2 mb-1">
+<h3 class="text-headline-md font-headline-md text-on-surface">Ikeja General Hospital</h3>
+</div>
+<div class="flex items-center gap-4 text-label-md text-on-surface-variant">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">location_on</span>
+                                    Ikeja, Lagos (5.1 km away)
+                                </span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">schedule</span>
+                                    18 min drive
+                                </span>
+</div>
+</div>
+<div class="flex flex-wrap gap-2">
+<div class="flex items-center gap-2 bg-error-container/20 px-3 py-1.5 rounded-xl border border-error-container">
+<span class="material-symbols-outlined text-error">warning</span>
+<span class="text-label-md font-semibold text-error">Limited Oxygen</span>
+</div>
+<div class="flex items-center gap-2 bg-secondary-container/40 px-3 py-1.5 rounded-xl border border-secondary-container">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">bloodtype</span>
+<span class="text-label-md font-semibold text-on-secondary-container">Blood (O+) Available</span>
+</div>
+</div>
+</div>
+<div class="flex md:flex-col justify-end gap-3 min-w-[140px]">
+<button class="flex-grow md:flex-none bg-surface border border-outline px-4 py-2.5 rounded-xl text-button hover:bg-surface-variant transition-colors flex items-center justify-center gap-2">
+                            Details
+                        </button>
+<button class="flex-grow md:flex-none bg-primary text-on-primary px-4 py-2.5 rounded-xl text-button shadow-md hover:bg-on-primary-fixed-variant transition-all flex items-center justify-center gap-2">
+                            Refer Now
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats Section (Bento-style summary) -->
+<section class="max-w-6xl mx-auto mt-stack-lg bento-grid" id="resource-summary" style="display: none;">
+<div class="col-span-12 md:col-span-4 glass-morphism rounded-3xl p-6 card-shadow border border-white/40">
+<div class="flex items-center gap-3 mb-4">
+<div class="p-2 bg-primary-container/20 rounded-xl">
+<span class="material-symbols-outlined text-primary">health_metrics</span>
+</div>
+<h4 class="font-headline-md text-on-surface">Resource Summary</h4>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center text-body-md">
+<span class="text-on-surface-variant">Blood O+</span>
+<span class="font-bold text-primary">80% Nearby availability</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5">
+<div class="bg-primary h-1.5 rounded-full" style="width: 80%"></div>
+</div>
+<div class="flex justify-between items-center text-body-md pt-2">
+<span class="text-on-surface-variant">Oxygen</span>
+<span class="font-bold text-primary">High availability</span>
+</div>
+</div>
+</div>
+<div class="col-span-12 md:col-span-8 bg-surface-container-low rounded-3xl p-6 flex flex-col md:flex-row items-center gap-6 relative overflow-hidden">
+<div class="relative z-10 space-y-2">
+<h4 class="text-headline-md font-headline-md text-on-surface">Need faster assistance?</h4>
+<p class="text-body-md text-on-surface-variant">Our emergency coordinator is available 24/7 for manual dispatch and complex triage cases.</p>
+<button class="mt-2 bg-on-surface text-surface py-2 px-6 rounded-xl font-button active:scale-95 transition-transform">Call Support</button>
+</div>
+<div class="hidden md:block absolute right-0 bottom-0 w-64 h-64 opacity-10">
+<span class="material-symbols-outlined text-[180px] text-primary">support_agent</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Mobile Navigation Shell (Suppressed on Desktop) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-surface border-t border-outline-variant px-6 py-4 flex justify-between items-center z-50">
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="dashboard.html">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[10px] font-label-md">Home</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="requestHelp.html">
+<span class="material-symbols-outlined">assignment</span>
+<span class="text-[10px] font-label-md">Referrals</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-primary" href="nearestfacilities.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">festival</span>
+<span class="text-[10px] font-bold">Facilities</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-on-surface-variant" href="dashboard.html">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-label-md">Profile</span>
+</a>
+</nav>
+<!-- Contextual FAB for Mobile -->
+<button class="md:hidden fixed bottom-24 right-6 bg-primary-container text-white p-4 rounded-full shadow-lg z-40 active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-2xl">map</span>
+</button>
+<script>
+        const facilities = JSON.parse(localStorage.getItem('saferefFacilities') || '[]');
+        const results = document.getElementById('facility-results');
+        const summary = document.getElementById('resource-summary');
+        const title = document.getElementById('results-title');
+        const description = document.getElementById('results-description');
+
+        function chip(icon, label, tone = 'primary') {
+            const toneClass = tone === 'error'
+                ? 'bg-error-container/20 border-error-container text-error'
+                : 'bg-secondary-container/40 border-secondary-container text-on-secondary-container';
+            return `
+                <div class="flex items-center gap-2 px-3 py-1.5 rounded-xl border ${toneClass}">
+                    <span class="material-symbols-outlined ${tone === 'error' ? 'text-error' : 'text-primary'}">${icon}</span>
+                    <span class="text-label-md font-semibold">${label}</span>
+                </div>
+            `;
+        }
+
+        results.innerHTML = '';
+        summary.innerHTML = '';
+        results.style.display = 'block';
+        summary.style.display = 'grid';
+
+        if (!facilities.length) {
+            title.textContent = 'No facilities available yet';
+            description.textContent = 'Ask a health worker to add facility details so matching results can appear here.';
+            results.innerHTML = `
+                <div class="bg-surface-container-lowest rounded-3xl p-8 border border-outline-variant shadow-sm text-center min-h-[280px] flex flex-col items-center justify-center gap-4">
+                    <div class="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                        <span class="material-symbols-outlined text-4xl">local_hospital</span>
+                    </div>
+                    <div>
+                        <h3 class="text-headline-md font-bold text-on-surface">Facility data has not been published</h3>
+                        <p class="text-body-md text-on-surface-variant max-w-md mt-2">Patient results will stay empty until a health worker saves real facility resources, contact details, and availability.</p>
+                    </div>
+                    <button class="bg-primary-container text-white px-6 py-3 rounded-xl font-button" onclick="window.location.href='healthWorkerFacility.html'">Add Facility Details</button>
+                </div>
+            `;
+            summary.innerHTML = `
+                <div class="col-span-12 bg-surface-container-low rounded-3xl p-6 text-center border border-outline-variant/30">
+                    <h4 class="text-headline-md font-bold text-on-surface">Resource Summary</h4>
+                    <p class="text-body-md text-on-surface-variant mt-2">No resource data is available yet.</p>
+                </div>
+            `;
+        } else {
+            title.textContent = 'Here are the available facilities';
+            description.textContent = `${facilities.length} facility record${facilities.length === 1 ? '' : 's'} submitted by health workers.`;
+            results.innerHTML = facilities.map((facility, index) => {
+                const chips = [
+                    chip('air', `${facility.oxygen} oxygen unit${Number(facility.oxygen) === 1 ? '' : 's'}`),
+                    chip('hotel', `${facility.beds} available bed${Number(facility.beds) === 1 ? '' : 's'}`),
+                    facility.blood.length ? chip('bloodtype', `Blood: ${facility.blood.join(', ')}`) : chip('bloodtype', 'No blood data', 'error'),
+                    ...facility.services.map(service => chip('medical_services', service))
+                ].join('');
+                return `
+                    <div class="bg-surface-container-lowest rounded-3xl p-6 border ${index === 0 ? 'border-2 border-primary' : 'border-outline-variant'} shadow-sm group hover:shadow-md transition-all duration-300">
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="w-full md:w-48 h-32 md:h-40 rounded-2xl bg-surface-variant flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined text-[72px]">local_hospital</span>
+                            </div>
+                            <div class="flex-grow space-y-4">
+                                <div>
+                                    <div class="flex flex-wrap items-center gap-2 mb-1">
+                                        <h3 class="text-headline-md font-headline-md text-on-surface">${facility.name}</h3>
+                                        <span class="bg-primary-fixed text-on-primary-fixed-variant px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider">${facility.status}</span>
+                                    </div>
+                                    <div class="flex flex-wrap items-center gap-4 text-label-md text-on-surface-variant">
+                                        <span class="flex items-center gap-1">
+                                            <span class="material-symbols-outlined text-sm">location_on</span>
+                                            ${facility.address}
+                                        </span>
+                                        <span class="flex items-center gap-1">
+                                            <span class="material-symbols-outlined text-sm">call</span>
+                                            ${facility.phone}
+                                        </span>
+                                        <span class="flex items-center gap-1">
+                                            <span class="material-symbols-outlined text-sm">business</span>
+                                            ${facility.type}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-wrap gap-2">${chips}</div>
+                                ${facility.notes ? `<p class="text-body-md text-on-surface-variant">${facility.notes}</p>` : ''}
+                            </div>
+                            <div class="flex md:flex-col justify-end gap-3 min-w-[140px]">
+                                <button class="flex-grow md:flex-none bg-surface border border-outline px-4 py-2.5 rounded-xl text-button hover:bg-surface-variant transition-colors">Details</button>
+                                <button class="flex-grow md:flex-none bg-primary text-on-primary px-4 py-2.5 rounded-xl text-button shadow-md hover:bg-on-primary-fixed-variant transition-all flex items-center justify-center gap-2">
+                                    Refer Now
+                                    <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            const totalOxygen = facilities.reduce((sum, facility) => sum + Number(facility.oxygen || 0), 0);
+            const totalBeds = facilities.reduce((sum, facility) => sum + Number(facility.beds || 0), 0);
+            const bloodTypes = [...new Set(facilities.flatMap(facility => facility.blood))];
+            summary.innerHTML = `
+                <div class="col-span-12 md:col-span-4 glass-morphism rounded-3xl p-6 card-shadow border border-white/40">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="p-2 bg-primary-container/20 rounded-xl">
+                            <span class="material-symbols-outlined text-primary">health_metrics</span>
+                        </div>
+                        <h4 class="font-headline-md text-on-surface">Resource Summary</h4>
+                    </div>
+                    <div class="space-y-3 text-body-md">
+                        <div class="flex justify-between"><span class="text-on-surface-variant">Facilities</span><span class="font-bold text-primary">${facilities.length}</span></div>
+                        <div class="flex justify-between"><span class="text-on-surface-variant">Oxygen units</span><span class="font-bold text-primary">${totalOxygen}</span></div>
+                        <div class="flex justify-between"><span class="text-on-surface-variant">Available beds</span><span class="font-bold text-primary">${totalBeds}</span></div>
+                    </div>
+                </div>
+                <div class="col-span-12 md:col-span-8 bg-surface-container-low rounded-3xl p-6 flex flex-col gap-3">
+                    <h4 class="text-headline-md font-headline-md text-on-surface">Available blood types</h4>
+                    <p class="text-body-md text-on-surface-variant">${bloodTypes.length ? bloodTypes.join(', ') : 'No blood inventory has been submitted.'}</p>
+                </div>
+            `;
+        }
+
+        // Simple micro-interaction for cards
+        document.querySelectorAll('.group').forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.add('scale-[0.98]');
+                setTimeout(() => card.classList.remove('scale-[0.98]'), 200);
+            });
+        });
+    </script>
+</body></html>

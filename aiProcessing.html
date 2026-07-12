@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SafeRef Health - AI Processing</title>
+<!-- Google Fonts: Manrope -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error-container": "#ffdad6",
+                        "surface-container": "#eceef0",
+                        "secondary-container": "#d5e0f8",
+                        "on-primary-fixed-variant": "#005232",
+                        "outline-variant": "#bccabe",
+                        "on-secondary-fixed": "#111c2d",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "inverse-on-surface": "#eff1f3",
+                        "secondary-fixed": "#d8e3fb",
+                        "on-primary-container": "#00331d",
+                        "on-surface-variant": "#3d4a41",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-primary-fixed": "#002111",
+                        "surface-container-high": "#e6e8ea",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f2f4f6",
+                        "background": "#f7f9fb",
+                        "on-secondary-container": "#586377",
+                        "primary-container": "#780606",
+                        "surface-dim": "#d8dadc",
+                        "on-tertiary-fixed": "#001a42",
+                        "inverse-primary": "#ff8e8e",
+                        "tertiary": "#005ac2",
+                        "primary-fixed-dim": "#ff8e8e",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "secondary": "#545f73",
+                        "primary-fixed": "#78fbb6",
+                        "tertiary-container": "#5290ff",
+                        "surface-tint": "#780606",
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary-fixed-variant": "#004395",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#191c1e",
+                        "surface": "#f7f9fb",
+                        "outline": "#6d7a70",
+                        "tertiary-fixed": "#d8e2ff",
+                        "tertiary-fixed-dim": "#adc6ff",
+                        "primary": "#780606",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "on-tertiary-container": "#002960",
+                        "on-surface": "#191c1e",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "stack-lg": "24px",
+                        "margin-mobile": "20px",
+                        "gutter": "16px",
+                        "margin-desktop": "40px",
+                        "card-padding": "16px",
+                        "unit": "4px",
+                        "stack-md": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Manrope"],
+                        "body-md": ["Manrope"],
+                        "headline-lg-mobile": ["Manrope"],
+                        "button": ["Manrope"],
+                        "body-lg": ["Manrope"],
+                        "headline-lg": ["Manrope"],
+                        "label-md": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "button": ["16px", {"lineHeight": "20px", "fontWeight": "600"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["30px", {"lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        .pulse-ring {
+            animation: pulse-ring 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(.33); opacity: 0.8; }
+            80%, 100% { transform: scale(1.5); opacity: 0; }
+        }
+        .status-check {
+            transition: all 0.5s ease;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-background min-h-screen flex flex-col items-center justify-center overflow-hidden">
+<!-- Sidebar (Suppressed for task-focused AI processing screen) -->
+<!-- Header/TopAppBar -->
+<header class="fixed top-0 left-0 right-0 h-16 flex items-center justify-between px-6 z-50 bg-surface/80 backdrop-blur-md">
+<div class="flex items-center gap-stack-sm cursor-pointer" onclick="window.location.href='dashboard.html'">
+<span class="material-symbols-outlined text-primary text-headline-md" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+<h1 class="font-headline-md text-headline-md text-primary font-bold tracking-tight">SafeRef Health</h1>
+</div>
+<div class="flex items-center gap-stack-md">
+<span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors" data-icon="help" onclick="window.location.href='requestHelp.html'">help</span>
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center cursor-pointer" onclick="window.location.href='dashboard.html'">
+<span class="material-symbols-outlined text-on-secondary-container text-[18px]">person</span>
+</div>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="relative w-full max-w-md px-margin-mobile py-stack-lg flex flex-col items-center justify-center text-center">
+<!-- Atmospheric Background Effect -->
+<div class="absolute inset-0 -z-10 flex items-center justify-center">
+<div class="w-[300px] h-[300px] bg-primary/5 rounded-full blur-3xl pulse-ring"></div>
+</div>
+<!-- Processing State Container -->
+<div class="flex flex-col items-center gap-stack-lg w-full">
+<!-- Heading Section -->
+<div class="space-y-stack-sm mb-stack-md">
+<h2 class="text-headline-lg font-headline-lg text-on-surface">Processing Your Request</h2>
+<p class="text-body-lg text-on-surface-variant">Our AI is analyzing the best medical facilities nearby to match your specific needs.</p>
+</div>
+<!-- AI Mascot Visualization -->
+<div class="relative w-48 h-48 flex items-center justify-center mb-stack-lg">
+<!-- Outer Pulse Rings -->
+<div class="absolute inset-0 rounded-full border border-primary/20 animate-[ping_3s_infinite]"></div>
+<div class="absolute inset-4 rounded-full border border-primary/10 animate-[ping_4s_infinite]"></div>
+<!-- Robot Container -->
+<div class="z-10 animate-float">
+<div class="w-32 h-32 bg-surface-container-highest rounded-3xl flex items-center justify-center shadow-lg relative overflow-hidden group">
+<!-- Tech pattern overlay -->
+<div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle, #780606 1px, transparent 1px); background-size: 8px 8px;"></div>
+<!-- AI Eyes/Face -->
+<div class="flex flex-col items-center gap-stack-sm">
+<div class="flex gap-stack-md">
+<div class="w-5 h-5 bg-primary-container rounded-full shadow-[0_0_10px_rgba(0,168,107,0.8)] animate-pulse"></div>
+<div class="w-5 h-5 bg-primary-container rounded-full shadow-[0_0_10px_rgba(0,168,107,0.8)] animate-pulse"></div>
+</div>
+<div class="w-12 h-1.5 bg-on-surface-variant/30 rounded-full"></div>
+</div>
+<!-- Scan Line Animation -->
+<div class="absolute top-0 left-0 w-full h-[2px] bg-primary animate-[scan_2s_linear_infinite]"></div>
+<style>
+                            @keyframes scan {
+                                0% { top: 0%; opacity: 0; }
+                                20% { opacity: 1; }
+                                80% { opacity: 1; }
+                                100% { top: 100%; opacity: 0; }
+                            }
+                        </style>
+</div>
+</div>
+</div>
+<!-- Progress Checklist -->
+<div class="w-full space-y-stack-md">
+<!-- Step 1 -->
+<div class="flex items-center justify-between p-stack-md bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/30">
+<div class="flex items-center gap-stack-md">
+<div class="w-8 h-8 rounded-full bg-primary-container/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="font-headline-md text-body-lg text-on-surface">Scanning nearby hospitals</span>
+</div>
+<span class="text-label-md text-primary font-bold uppercase tracking-widest">Completed</span>
+</div>
+<!-- Step 2 (Active) -->
+<div class="flex items-center justify-between p-stack-md bg-white rounded-xl shadow-md border-2 border-primary/20">
+<div class="flex items-center gap-stack-md">
+<div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+<div class="w-2 h-2 bg-primary rounded-full animate-bounce"></div>
+</div>
+<span class="font-headline-md text-body-lg text-on-surface font-bold">Checking available resources</span>
+</div>
+<div class="flex items-center gap-1">
+<div class="w-1.5 h-1.5 bg-primary rounded-full animate-[bounce_1s_infinite_0ms]"></div>
+<div class="w-1.5 h-1.5 bg-primary rounded-full animate-[bounce_1s_infinite_200ms]"></div>
+<div class="w-1.5 h-1.5 bg-primary rounded-full animate-[bounce_1s_infinite_400ms]"></div>
+</div>
+</div>
+<!-- Step 3 -->
+<div class="flex items-center justify-between p-stack-md bg-surface-container-low/50 rounded-xl border border-transparent opacity-60">
+<div class="flex items-center gap-stack-md">
+<div class="w-8 h-8 rounded-full bg-on-surface-variant/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface-variant">pending</span>
+</div>
+<span class="font-headline-md text-body-lg text-on-surface-variant">Matching with your needs</span>
+</div>
+<span class="text-label-md text-on-surface-variant font-medium">Pending</span>
+</div>
+</div>
+<!-- Info Footer -->
+<div class="mt-stack-lg p-stack-md glass-card rounded-2xl flex items-center gap-stack-md text-left w-full">
+<div class="p-2 bg-primary-container rounded-lg">
+<span class="material-symbols-outlined text-white" data-icon="timer">timer</span>
+</div>
+<div class="flex flex-col">
+<span class="text-label-md text-on-surface-variant uppercase tracking-wider">Estimated Time</span>
+<span class="text-body-md text-on-surface font-bold">This usually takes less than 10 seconds</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Action (Optional, usually hidden during processing) -->
+<div class="fixed bottom-margin-mobile flex flex-col items-center gap-stack-sm transition-all duration-1000 translate-y-32" id="cancel-action">
+<button class="px-stack-lg py-stack-md bg-error/10 text-error font-button rounded-full hover:bg-error/20 transition-colors" onclick="window.location.href='requestHelp.html'">
+            Cancel Request
+         </button>
+</div>
+<!-- Micro-interaction Script -->
+<script>
+        // Smoothly reveal the cancel button after a delay
+        setTimeout(() => {
+            const cancelBtn = document.getElementById('cancel-action');
+            cancelBtn.classList.remove('translate-y-32');
+            cancelBtn.classList.add('translate-y-0');
+        }, 3000);
+
+        // Simulated progress update
+        const steps = [
+            { label: 'Scanning nearby hospitals', status: 'completed' },
+            { label: 'Checking available resources', status: 'active' },
+            { label: 'Matching with your needs', status: 'pending' }
+        ];
+
+        setTimeout(() => {
+            window.location.href = 'nearestfacilities.html';
+        }, 7000);
+
+        // This would normally be handled by real-time WebSocket or Long Polling in a real app
+    </script>
+</body></html>
