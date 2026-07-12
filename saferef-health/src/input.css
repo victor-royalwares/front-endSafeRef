@@ -1,0 +1,163 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   Global base
+   ========================================================================== */
+body {
+  font-family: "Manrope", sans-serif;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* ==========================================================================
+   aiProcessing.html
+   ========================================================================== */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+.pulse-ring {
+  animation: pulse-ring 2.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+@keyframes pulse-ring {
+  0% { transform: scale(.33); opacity: 0.8; }
+  80%, 100% { transform: scale(1.5); opacity: 0; }
+}
+
+.status-check {
+  transition: all 0.5s ease;
+}
+
+.ai-scan-line {
+  animation: scan 2s linear infinite;
+}
+@keyframes scan {
+  0% { top: 0%; opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* ==========================================================================
+   Shared "glass" surfaces (dashboard, onboarding, userAuth, aiProcessing)
+   ========================================================================== */
+.glass-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ==========================================================================
+   healthWorkerAuth.html
+   ========================================================================== */
+.panel-surface {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(242, 244, 246, 0.78));
+  backdrop-filter: blur(16px);
+}
+
+/* ==========================================================================
+   facilitiesdetails.html
+   ========================================================================== */
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #e0e3e5; border-radius: 10px; }
+
+/* ==========================================================================
+   maps.html
+   ========================================================================== */
+.map-container {
+  height: calc(100vh - 80px);
+}
+.route-path {
+  stroke-dasharray: 10;
+  animation: dash 20s linear infinite;
+}
+@keyframes dash {
+  to { stroke-dashoffset: -1000; }
+}
+.pulse {
+  animation: pulse-animation 2s infinite;
+}
+@keyframes pulse-animation {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 109, 67, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(0, 109, 67, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 109, 67, 0); }
+}
+
+/* ==========================================================================
+   nearestfacilities.html
+   ========================================================================== */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 16px;
+}
+.card-shadow {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ==========================================================================
+   roleselection.html
+   ========================================================================== */
+.role-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.role-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 109, 67, 0.08);
+}
+.role-card.active {
+  border-color: #780606;
+  background-color: #f7f9fb;
+}
+.role-card.active .icon-container {
+  background-color: #780606;
+  color: white;
+}
+
+/* ==========================================================================
+   onboarding.html
+   ========================================================================== */
+.hero-gradient {
+  background: radial-gradient(circle at 100% 0%, #78fbb620 0%, transparent 40%),
+              radial-gradient(circle at 0% 100%, #78060610 0%, transparent 40%);
+}
+.pulse-soft {
+  animation: pulse-soft 3s infinite ease-in-out;
+}
+@keyframes pulse-soft {
+  0%, 100% { transform: scale(1); opacity: 0.1; }
+  50% { transform: scale(1.05); opacity: 0.2; }
+}
+
+/* ==========================================================================
+   requestHelp.html
+   ========================================================================== */
+.selection-card {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.selection-card:hover {
+  transform: translateY(-2px);
+}
+.custom-radio:checked + .card-content {
+  border-color: #780606;
+  background-color: #f0fdf4;
+}
+.custom-radio:checked + .card-content .check-icon {
+  display: block;
+}

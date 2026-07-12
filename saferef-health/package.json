@@ -1,0 +1,21 @@
+{
+  "name": "saferef-health",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SafeRef Health - AI-powered emergency referral system",
+  "scripts": {
+    "build:config": "node scripts/generate-config.js",
+    "build:css": "tailwindcss -i ./src/input.css -o ./public/css/output.css --minify",
+    "build": "npm run build:config && npm run build:css",
+    "dev:css": "tailwindcss -i ./src/input.css -o ./public/css/output.css --watch",
+    "dev": "npm run build:config && npx serve public"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.13",
+    "@tailwindcss/forms": "^0.5.9",
+    "@tailwindcss/container-queries": "^0.1.1",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "serve": "^14.2.3"
+  }
+}

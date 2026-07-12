@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Role Selection - SafeRef Health</title>
+<!-- Google Fonts: Manrope -->
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+
+<link rel="stylesheet" href="/css/output.css"/>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col">
+<!-- Top Navigation (Shell suppressed for Transactional/Onboarding page) -->
+<header class="w-full h-16 flex items-center justify-between px-margin-desktop bg-surface z-50">
+<div class="flex items-center gap-2">
+<span class="text-headline-md font-headline-md font-extrabold text-primary">SafeRef Health</span>
+</div>
+<div class="hidden md:flex items-center gap-6">
+<span class="text-label-md font-label-md text-on-surface-variant cursor-pointer hover:text-primary transition-colors">Help Center</span>
+<span class="text-label-md font-label-md text-on-surface-variant cursor-pointer hover:text-primary transition-colors">Privacy Policy</span>
+</div>
+</header>
+<!-- Content Canvas -->
+<main class="flex-grow flex flex-col items-center justify-center px-margin-mobile md:px-0 py-stack-lg relative overflow-hidden">
+<!-- Subtle Ambient Background Effect -->
+<div class="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20">
+<div class="absolute -top-48 -left-48 w-96 h-96 bg-primary-container/20 rounded-full blur-[120px]"></div>
+<div class="absolute -bottom-48 -right-48 w-96 h-96 bg-tertiary-container/10 rounded-full blur-[120px]"></div>
+</div>
+<div class="w-full max-w-4xl z-10 flex flex-col items-center">
+<!-- Header Section -->
+<div class="text-center mb-12 animate-fade-in">
+<h1 class="text-headline-lg font-headline-lg text-on-surface mb-2">Who are you?</h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant">Select your role to personalize your experience</p>
+</div>
+<!-- Bento Grid of Roles -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter w-full">
+<!-- Option 1: Patient / Caregiver -->
+<button class="role-card flex flex-col p-6 rounded-xl bg-surface-container-lowest border-2 border-transparent shadow-sm text-left group" data-target="userAuth.html" onclick="selectRole(this)">
+<div class="icon-container w-14 h-14 rounded-lg bg-surface-container-low flex items-center justify-center text-primary mb-6 transition-colors duration-300">
+<span class="material-symbols-outlined text-[32px]" data-icon="person">person</span>
+</div>
+<div class="flex flex-col gap-1 mb-8">
+<h3 class="text-headline-md font-headline-md text-on-surface">Patient / Caregiver</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">I need medical help or I'm seeking care for a loved one.</p>
+</div>
+<div class="mt-auto flex items-center text-primary font-button group-hover:gap-2 transition-all">
+<span>Get Started</span>
+<span class="material-symbols-outlined ml-1 text-md" data-icon="arrow_forward">arrow_forward</span>
+</div>
+</button>
+<!-- Option 2: Health Worker / CHEW -->
+<button class="role-card flex flex-col p-6 rounded-xl bg-surface-container-lowest border-2 border-transparent shadow-sm text-left group" data-target="healthWorkerAuth.html" onclick="selectRole(this)">
+<div class="icon-container w-14 h-14 rounded-lg bg-surface-container-low flex items-center justify-center text-primary mb-6 transition-colors duration-300">
+<span class="material-symbols-outlined text-[32px]" data-icon="medical_services">medical_services</span>
+</div>
+<div class="flex flex-col gap-1 mb-8">
+<h3 class="text-headline-md font-headline-md text-on-surface">Health Worker / CHEW</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">I'm a professional providing primary care and referral support.</p>
+</div>
+<div class="mt-auto flex items-center text-primary font-button group-hover:gap-2 transition-all">
+<span>Provide Care</span>
+<span class="material-symbols-outlined ml-1 text-md" data-icon="arrow_forward">arrow_forward</span>
+</div>
+</button>
+<!-- Option 3: Facility / Hospital -->
+<button class="role-card flex flex-col p-6 rounded-xl bg-surface-container-lowest border-2 border-transparent shadow-sm text-left group" data-target="healthWorkerAuth.html" onclick="selectRole(this)">
+<div class="icon-container w-14 h-14 rounded-lg bg-surface-container-low flex items-center justify-center text-primary mb-6 transition-colors duration-300">
+<span class="material-symbols-outlined text-[32px]" data-icon="hospital">festival</span>
+</div>
+<div class="flex flex-col gap-1 mb-8">
+<h3 class="text-headline-md font-headline-md text-on-surface">Facility / Hospital</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Manage medical resources, capacity, and incoming requests.</p>
+</div>
+<div class="mt-auto flex items-center text-primary font-button group-hover:gap-2 transition-all">
+<span>Manage Facility</span>
+<span class="material-symbols-outlined ml-1 text-md" data-icon="arrow_forward">arrow_forward</span>
+</div>
+</button>
+</div>
+<!-- Footer Message -->
+<div class="mt-12 flex flex-col items-center gap-4">
+<p class="text-label-md font-label-md text-on-surface-variant opacity-70">You can change this later in settings</p>
+<div class="flex items-center gap-2 py-2 px-4 rounded-full bg-surface-container-high/50">
+<span class="material-symbols-outlined text-sm text-on-surface-variant" data-icon="info">info</span>
+<span class="text-label-md font-label-md text-on-surface-variant">SafeRef Health is an AI-Powered Emergency Referral System</span>
+</div>
+</div>
+</div>
+<!-- Illustrations for decoration (Matching image style) -->
+<div class="hidden lg:block absolute bottom-12 left-12 w-64 h-64 overflow-hidden rounded-2xl opacity-40">
+<img class="w-full h-full object-contain" data-alt="A clean, minimalist 3D isometric illustration of a modern hospital building with a teal green ambulance parked outside. The style is clinical yet friendly, featuring soft organic shadows and a bright white background. The color palette is dominated by vibrant teal-green and soft grays to match a corporate medical aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDl4P4IusHhzAoSXn95POMHzs4CgrxVMzl7cRsHDix5toUQV6vkyHNcytozJ2z4NNgz7aDgORNpQwVtAWEQ7nzI1T_wFykvB-ylX945uLALiSDWII3Se3mK8aqnHhqlqdOzz3vr2_R_Up7hkWTmZnSjBRhWV6mtjWZN9KyGub3s5hBkapCxC2mSLZBdTTyZKZxlrsVeJ9v187jg1hw5ekiBdRJnTxyW7NCW1_rF80RFVXRrJtpQLyfTMw"/>
+</div>
+<div class="hidden lg:block absolute bottom-12 right-12 w-64 h-64 overflow-hidden rounded-2xl opacity-40">
+<img class="w-full h-full object-contain" data-alt="A detailed 3D isometric illustration of a smartphone displaying a medical map with glowing red and green location pins. A stylized medical heart rate line pulses above the screen. The visual style is modern, professional, and empathetic, utilizing a clean medical aesthetic with teal-green accents and soft lighting effects." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4zk2HpB3pmff-kT6qlaby8BhJVayoowEgp6rh52VF7t3k-BjooXE2-NKtnESAaXPrMOSZnF_H-GBXmrIWFusX25Epvbpr2gX72zS3pF_Oo69iPhW9HvhmJc4Q8pb5K7jbQE_MG94ILjUDn1c9HZIWOBKZX5Ft3Vgx4bZ7MtRMoButkxd56TDQVsDUoqxc-IDH7-1IEGPmcUqQk6wlbCh4N8gcguw2067I5-ZItD-FWumNJdSZ37HlXA"/>
+</div>
+</main>
+<!-- Interaction Script -->
+<script>
+        function selectRole(element) {
+            // Remove active class from all cards
+            document.querySelectorAll('.role-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            // Add active class to clicked card
+            element.classList.add('active');
+            
+            // Add a subtle bounce animation
+            element.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                element.style.transform = 'translateY(-4px)';
+            }, 100);
+            setTimeout(() => {
+                window.location.href = element.dataset.target || 'dashboard.html';
+            }, 350);
+        }
+
+        // Initialize material symbols font variation settings
+        document.querySelectorAll('.material-symbols-outlined').forEach(span => {
+            if (span.getAttribute('data-weight') === 'fill') {
+                span.style.fontVariationSettings = "'FILL' 1";
+            }
+        });
+    </script>
+</body></html>

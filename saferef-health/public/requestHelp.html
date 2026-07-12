@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Request Help - SafeRef Health</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+
+<link rel="stylesheet" href="/css/output.css"/>
+<script src="/config.js"></script>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface h-16 flex items-center px-margin-desktop border-none shadow-none md:pl-64">
+<div class="flex justify-between items-center w-full">
+<div class="flex items-center gap-4">
+<button class="md:hidden p-2 text-on-surface-variant" onclick="window.location.href='dashboard.html'">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="text-headline-md font-headline-md font-bold text-primary">SafeRef Health</h1>
+</div>
+<div class="flex items-center gap-stack-lg">
+<div class="hidden md:flex bg-surface-container-low px-4 py-2 rounded-full items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">emergency</span>
+<span class="text-label-md text-on-surface">Emergency Status: Active</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="Close-up portrait of a professional healthcare administrator in a clinical setting. Soft, natural morning light illuminates a clean, modern medical facility background with teal and white accents. The mood is reliable and empathetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBG_36o0ebHbYNFzI__De7S6DkheGqFiLeTnijDEwwpr_hVx2fMlC-IN5-VATYUi3GPPSZpNggDWT7VhPkfvMbsfYBlf4cg_OYUxWmndmey0il1EB-syLE0hVDePGZc0my9C6rNnvKU1pMZz0jcuUCMzEBPvEVnz47VH5MrvydJo6-gfvayfBOa5wa1JAnCT48pxP6CF2z73WFW-FksO70YEoziFCy5p7lXe_pIXTlK1oG6wtUzFOwfTw"/>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Side Navigation Bar -->
+<aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 flex-col bg-surface-container-low shadow-sm z-[60] py-stack-lg">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-primary text-[32px]" style="font-variation-settings: 'FILL' 1;">medical_services</span>
+<span class="text-headline-md font-headline-md font-bold text-primary">SafeRef</span>
+</div>
+<p class="text-label-md text-on-surface-variant opacity-70">Emergency Referral System</p>
+</div>
+<nav class="flex-1 px-4 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-secondary-container/20 transition-colors" href="dashboard.html">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-primary font-bold border-r-4 border-primary bg-secondary-container/20" href="requestHelp.html">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span class="text-label-md">Referrals</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-secondary-container/20 transition-colors" href="nearestfacilities.html">
+<span class="material-symbols-outlined" data-icon="hospital">festival</span>
+<span class="text-label-md">Facilities</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-secondary-container/20 transition-colors" href="maps.html">
+<span class="material-symbols-outlined" data-icon="map">map</span>
+<span class="text-label-md">Map</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-secondary-container/20 transition-colors" href="dashboard.html">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="text-label-md">Profile</span>
+</a>
+</nav>
+<div class="px-4 mt-auto border-t border-outline-variant/30 pt-6">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-secondary-container/20 transition-colors" href="dashboard.html">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="text-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-error hover:bg-error-container/20 transition-colors" href="onboarding.html">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="text-label-md">Log Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="pt-24 pb-12 px-margin-mobile md:px-margin-desktop md:ml-64 flex justify-center">
+<div class="w-full max-w-2xl">
+<!-- Back Action -->
+<button class="mb-stack-lg flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors" onclick="history.length > 1 ? history.back() : window.location.href='dashboard.html'">
+<span class="material-symbols-outlined">arrow_back</span>
+<span class="text-label-md">Go Back</span>
+</button>
+<!-- Header Section -->
+<div class="mb-stack-lg text-center md:text-left">
+<h2 class="text-headline-lg font-headline-lg text-on-surface mb-2">Request Help</h2>
+<p class="text-body-lg text-on-surface-variant">Tell us what you need, and our AI will find the best facility matching your requirements.</p>
+</div>
+<!-- Form Content -->
+<form class="space-y-stack-lg">
+<!-- Selection Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<label class="relative block cursor-pointer group">
+<input checked="" class="custom-radio sr-only" name="need" type="radio" value="general"/>
+<div class="card-content border-[1.5px] border-outline-variant rounded-2xl p-card-padding h-full selection-card bg-surface-container-lowest">
+<div class="flex items-start justify-between mb-2">
+<div class="bg-primary/10 p-2 rounded-xl text-primary">
+<span class="material-symbols-outlined" data-icon="medical_information">medical_information</span>
+</div>
+<span class="check-icon hidden text-primary material-symbols-outlined">check_circle</span>
+</div>
+<h3 class="text-headline-md font-bold mb-1">General Emergency</h3>
+<p class="text-body-md text-on-surface-variant">Accident, Fever, Pain, etc.</p>
+</div>
+</label>
+<label class="relative block cursor-pointer group">
+<input class="custom-radio sr-only" name="need" type="radio" value="maternal"/>
+<div class="card-content border-[1.5px] border-outline-variant rounded-2xl p-card-padding h-full selection-card bg-surface-container-lowest">
+<div class="flex items-start justify-between mb-2">
+<div class="bg-secondary/10 p-2 rounded-xl text-secondary">
+<span class="material-symbols-outlined" data-icon="pregnant_woman">pregnant_woman</span>
+</div>
+<span class="check-icon hidden text-primary material-symbols-outlined">check_circle</span>
+</div>
+<h3 class="text-headline-md font-bold mb-1">Maternal Emergency</h3>
+<p class="text-body-md text-on-surface-variant">Pregnancy, Labour, ANC, etc.</p>
+</div>
+</label>
+<label class="relative block cursor-pointer group">
+<input class="custom-radio sr-only" name="need" type="radio" value="blood"/>
+<div class="card-content border-[1.5px] border-outline-variant rounded-2xl p-card-padding h-full selection-card bg-surface-container-lowest">
+<div class="flex items-start justify-between mb-2">
+<div class="bg-error/10 p-2 rounded-xl text-error">
+<span class="material-symbols-outlined" data-icon="bloodtype">bloodtype</span>
+</div>
+<span class="check-icon hidden text-primary material-symbols-outlined">check_circle</span>
+</div>
+<h3 class="text-headline-md font-bold mb-1">Blood</h3>
+<p class="text-body-md text-on-surface-variant">Get blood of required type</p>
+</div>
+</label>
+<label class="relative block cursor-pointer group">
+<input class="custom-radio sr-only" name="need" type="radio" value="oxygen"/>
+<div class="card-content border-[1.5px] border-outline-variant rounded-2xl p-card-padding h-full selection-card bg-surface-container-lowest">
+<div class="flex items-start justify-between mb-2">
+<div class="bg-tertiary-container/20 p-2 rounded-xl text-tertiary">
+<span class="material-symbols-outlined" data-icon="air">air</span>
+</div>
+<span class="check-icon hidden text-primary material-symbols-outlined">check_circle</span>
+</div>
+<h3 class="text-headline-md font-bold mb-1">Oxygen</h3>
+<p class="text-body-md text-on-surface-variant">Need oxygen support</p>
+</div>
+</label>
+</div>
+<!-- Location Section -->
+<div class="bg-surface-container-lowest rounded-2xl p-card-padding border border-outline-variant/30 shadow-sm">
+<label class="block text-label-md font-bold text-on-surface-variant mb-3">YOUR LOCATION</label>
+<div class="relative mb-3">
+<div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-primary" data-icon="location_on">location_on</span>
+</div>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary focus:bg-surface transition-all text-body-lg" placeholder="Enter your current address" type="text" name="location"/>
+</div>
+<button class="flex items-center gap-2 text-primary hover:text-on-primary-fixed-variant font-semibold text-body-md transition-colors px-1" type="button">
+<span class="material-symbols-outlined text-[18px]">my_location</span>
+                        Use current location
+                    </button>
+</div>
+<!-- Action Button -->
+<div class="pt-4">
+<button class="w-full bg-primary-container text-white py-4 px-6 rounded-2xl text-button hover:bg-primary transition-all shadow-md active:scale-[0.98] duration-200 flex items-center justify-center gap-2 group" type="submit">
+<span>Continue</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<p class="text-center text-label-md text-on-surface-variant mt-4">
+                        Securely matching you with <span class="font-bold text-primary">50+</span> local facilities
+                    </p>
+</div>
+</form>
+</div>
+</main>
+<!-- Subtle Background Elements -->
+<div class="fixed top-0 right-0 w-1/3 h-1/3 bg-primary/5 rounded-full blur-[120px] pointer-events-none -z-10"></div>
+<div class="fixed bottom-0 left-0 w-1/4 h-1/4 bg-secondary-container/10 rounded-full blur-[100px] pointer-events-none -z-10"></div>
+<script>
+        document.querySelector('form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span> Processing Request...';
+            btn.disabled = true;
+            btn.classList.add('opacity-80');
+
+            const formData = new FormData(e.target);
+            const payload = {
+                need: e.target.querySelector('input[name="need"]:checked')?.value || 'general',
+                location: formData.get('location') || '',
+                message: 'Emergency support request'
+            };
+
+            try {
+                const referralResponse = await fetch(`${window.API_BASE_URL}/api/referrals/`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const referralData = await referralResponse.json();
+                if (!referralResponse.ok) throw new Error(referralData.message || 'Referral request failed');
+
+                await fetch(`${window.API_BASE_URL}/api/ai/analyze`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                localStorage.setItem('saferefRequest', JSON.stringify(payload));
+                window.location.href = 'aiProcessing.html';
+            } catch (error) {
+                btn.innerHTML = `<span>${error.message}</span>`;
+                setTimeout(() => {
+                    btn.innerHTML = originalContent;
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-80');
+                }, 1800);
+            }
+        });
+
+        // Click interaction for selection cards
+        const radios = document.querySelectorAll('.custom-radio');
+        radios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                // Potential feedback logic here
+            });
+        });
+    </script>
+</body></html>
