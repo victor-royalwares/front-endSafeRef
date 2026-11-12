@@ -1,6 +1,7 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html class="light" lang="en"><head>
+<script src="/config.js"></script>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>SafeRef Health - Results</title>
@@ -89,7 +90,7 @@
 <section class="max-w-6xl mx-auto mb-stack-lg">
 <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
 <div class="space-y-1">
-<button class="flex items-center gap-2 text-primary font-button hover:opacity-80 transition-opacity mb-2">
+<button id="results-back" type="button" class="flex items-center gap-2 text-primary font-button hover:opacity-80 transition-opacity mb-2">
 <span class="material-symbols-outlined">arrow_back</span>
                         Back
                     </button>
@@ -97,11 +98,11 @@
 <p class="text-body-md text-on-surface-variant max-w-lg" id="results-description">Facility results are based on details submitted by health workers.</p>
 </div>
 <div class="flex gap-2">
-<button class="flex items-center gap-2 bg-surface-container-lowest border border-outline-variant px-4 py-2 rounded-xl text-button hover:bg-surface-variant transition-colors">
+<button id="filter-facilities" type="button" class="flex items-center gap-2 bg-surface-container-lowest border border-outline-variant px-4 py-2 rounded-xl text-button hover:bg-surface-variant transition-colors">
 <span class="material-symbols-outlined">filter_list</span>
                         Filter
                     </button>
-<button class="flex items-center gap-2 bg-primary-container text-on-primary px-6 py-2 rounded-xl font-button shadow-md hover:opacity-90 active:scale-95 transition-all">
+<button id="view-matched-map" type="button" class="flex items-center gap-2 bg-primary-container text-on-primary px-6 py-2 rounded-xl font-button shadow-md hover:opacity-90 active:scale-95 transition-all">
 <span class="material-symbols-outlined">map</span>
                         View on Map
                     </button>
@@ -308,12 +309,127 @@
 <span class="text-[10px] font-label-md">Profile</span>
 </a>
 </nav>
+<dialog id="facility-details-dialog" class="w-[min(40rem,calc(100vw-2rem))] rounded-2xl p-0 shadow-2xl backdrop:bg-black/40">
+<div class="p-6">
+<div class="flex items-start justify-between gap-4"><h2 id="facility-details-name" class="text-headline-md font-bold text-on-surface"></h2><button type="button" id="close-facility-details" class="rounded-lg px-3 py-2 text-primary hover:bg-primary/5">Close</button></div>
+<p id="facility-details-meta" class="mt-2 text-body-md text-on-surface-variant"></p>
+<div class="mt-5 grid grid-cols-2 gap-3 text-body-md"><p><b>Status:</b> <span id="facility-details-status"></span></p><p><b>Oxygen:</b> <span id="facility-details-oxygen"></span></p><p><b>Available beds:</b> <span id="facility-details-beds"></span></p><p><b>Blood:</b> <span id="facility-details-blood"></span></p></div>
+<p class="mt-4"><b>Services:</b> <span id="facility-details-services"></span></p><p id="facility-details-notes" class="mt-3 text-body-md text-on-surface-variant"></p>
+</div>
+</dialog>
+<dialog id="facility-filter-dialog" class="w-[min(28rem,calc(100vw-2rem))] rounded-2xl p-0 shadow-2xl backdrop:bg-black/40">
+<form method="dialog" id="facility-filter-form" class="p-6 space-y-4">
+<h2 class="text-headline-md font-bold">Filter matching facilities</h2>
+<label class="block text-body-md">Availability<select id="filter-availability" class="mt-1 w-full rounded-xl border-outline-variant"><option value="all">Any status</option><option value="open">Open</option></select></label>
+<label class="block text-body-md">Minimum oxygen units<input id="filter-min-oxygen" type="number" min="0" value="0" class="mt-1 w-full rounded-xl border-outline-variant"/></label>
+<label class="block text-body-md">Minimum available beds<input id="filter-min-beds" type="number" min="0" value="0" class="mt-1 w-full rounded-xl border-outline-variant"/></label>
+<div class="flex justify-end gap-2"><button type="button" id="reset-facility-filters" class="rounded-xl border px-4 py-2">Reset</button><button type="submit" class="rounded-xl bg-primary px-4 py-2 text-white">Apply filters</button></div>
+</form>
+</dialog>
 <!-- Contextual FAB for Mobile -->
 <button class="md:hidden fixed bottom-24 right-6 bg-primary-container text-white p-4 rounded-full shadow-lg z-40 active:scale-90 transition-transform">
 <span class="material-symbols-outlined text-2xl">map</span>
 </button>
 <script>
-        const facilities = JSON.parse(localStorage.getItem('saferefFacilities') || '[]');
+        window.openFacilityMap = function(index) {
+            const request = JSON.parse(localStorage.getItem('saferefRequest') || 'null') || {};
+            const key = request?.need ? 'saferefMatchedFacilities' : 'saferefFacilities';
+            const items = JSON.parse(localStorage.getItem(key) || '[]');
+            const facility = items[index];
+            if (!facility) return;
+            localStorage.setItem('saferefSelectedFacility', JSON.stringify(facility));
+            const hasCoordinates = facility.lat !== null && facility.lat !== undefined && facility.lat !== '' && facility.lng !== null && facility.lng !== undefined && facility.lng !== '' && Number.isFinite(Number(facility.lat)) && Number.isFinite(Number(facility.lng));
+            const destination = hasCoordinates
+                ? `${facility.lat},${facility.lng}`
+                : [facility.name, facility.address].filter(Boolean).join(', ');
+            window.location.href = `maps.html?facility=${encodeURIComponent(facility.id)}`;
+        };
+
+        function getFacilityNavigationUrl(facility) {
+            const hasCoordinates = facility.lat !== null && facility.lat !== undefined && facility.lat !== '' && facility.lng !== null && facility.lng !== undefined && facility.lng !== '' && Number.isFinite(Number(facility.lat)) && Number.isFinite(Number(facility.lng));
+            const destination = hasCoordinates ? `${facility.lat},${facility.lng}` : [facility.name, facility.address].filter(Boolean).join(', ');
+            return `maps.html?facility=${encodeURIComponent(facility.id)}`;
+        }
+
+        window.openFacilityDetails = function(index) {
+            const request = JSON.parse(localStorage.getItem('saferefRequest') || 'null') || {};
+            const key = request?.need ? 'saferefMatchedFacilities' : 'saferefFacilities';
+            const facility = JSON.parse(localStorage.getItem(key) || '[]')[index];
+            if (!facility) return;
+            document.getElementById('facility-details-name').textContent = facility.name || 'Facility details';
+            document.getElementById('facility-details-meta').textContent = [facility.type, facility.address, facility.phone].filter(Boolean).join(' Â· ');
+            document.getElementById('facility-details-status').textContent = facility.status || 'Not reported';
+            document.getElementById('facility-details-oxygen').textContent = `${Number(facility.oxygen || 0)} units`;
+            document.getElementById('facility-details-beds').textContent = String(Number(facility.beds || 0));
+            document.getElementById('facility-details-blood').textContent = (facility.blood || []).join(', ') || 'Not reported';
+            document.getElementById('facility-details-services').textContent = (facility.services || []).join(', ') || 'Not reported';
+            document.getElementById('facility-details-notes').textContent = facility.notes || '';
+            document.getElementById('facility-details-dialog').showModal();
+        };
+
+        window.referToFacility = async function(index) {
+            const request = JSON.parse(localStorage.getItem('saferefRequest') || 'null') || {};
+            const key = request?.need ? 'saferefMatchedFacilities' : 'saferefFacilities';
+            const facility = JSON.parse(localStorage.getItem(key) || '[]')[index];
+            if (!facility) return;
+            localStorage.setItem('saferefSelectedFacility', JSON.stringify(facility));
+            const patient = JSON.parse(localStorage.getItem('saferefUser') || 'null') || {};
+            const apiBase = typeof window.API_BASE_URL === 'string' ? window.API_BASE_URL : 'https://saferef-back.onrender.com';
+            try {
+                let referralId = request.referral_id;
+                if (!referralId) {
+                    const need = request.need || 'general assistance';
+                    const location = request.location || patient.location || '';
+                    const createResponse = await fetch(`${apiBase}/api/referrals/`, {
+                        method: 'POST', headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ need, location, message: request.message || 'Patient requested a direct referral to this facility' })
+                    });
+                    const created = await createResponse.json();
+                    if (!createResponse.ok) throw new Error(created.message || 'Could not create referral');
+                    referralId = created.referral?.id;
+                }
+                const assignResponse = await fetch(`${apiBase}/api/referrals/${encodeURIComponent(referralId)}/facility`, {
+                    method: 'PUT', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        facility_id: facility.id,
+                        patient_user_id: patient.id || null,
+                        patient_name: patient.name || 'Guest patient',
+                        patient_phone: patient.phone || '',
+                        eta_minutes: facility.route?.duration_mins ?? null
+                    })
+                });
+                const assigned = await assignResponse.json();
+                if (!assignResponse.ok) throw new Error(assigned.message || 'Could not assign facility');
+                if (!assigned.notification_created) throw new Error('The hospital notification could not be confirmed');
+                request.referral_id = referralId;
+                request.selected_facility_id = facility.id ?? null;
+                request.selected_facility_name = facility.name || '';
+                localStorage.setItem('saferefRequest', JSON.stringify(request));
+                window.location.href = getFacilityNavigationUrl(facility);
+            } catch (error) {
+                alert(`Referral could not be sent to ${facility.name}: ${error.message}`);
+            }
+        };
+
+        (async () => {
+        const savedRequest = JSON.parse(localStorage.getItem('saferefRequest') || 'null');
+        const hasRequest = Boolean(savedRequest?.need);
+        const needLabel = ({ general: 'emergency care', maternal: 'maternity care', blood: 'blood', oxygen: 'oxygen' })[savedRequest?.need] || savedRequest?.need;
+        let facilities = hasRequest
+            ? JSON.parse(localStorage.getItem('saferefMatchedFacilities') || '[]')
+            : JSON.parse(localStorage.getItem('saferefFacilities') || '[]');
+        if (!hasRequest) {
+            try {
+                const response = await fetch(`${window.API_BASE_URL}/api/hospitals/`);
+                if (response.ok) {
+                    const data = await response.json();
+                    if (Array.isArray(data.facilities)) {
+                        facilities = data.facilities;
+                        localStorage.setItem('saferefFacilities', JSON.stringify(facilities));
+                    }
+                }
+            } catch (_) { /* Keep previously loaded facilities when the API is offline. */ }
+        }
         const results = document.getElementById('facility-results');
         const summary = document.getElementById('resource-summary');
         const title = document.getElementById('results-title');
@@ -337,18 +453,20 @@
         summary.style.display = 'grid';
 
         if (!facilities.length) {
-            title.textContent = 'No facilities available yet';
-            description.textContent = 'Ask a health worker to add facility details so matching results can appear here.';
+            title.textContent = hasRequest ? 'No matching facilities found' : 'No facilities available yet';
+            description.textContent = hasRequest
+                ? `No facilities currently report the resources needed for your ${needLabel} request${savedRequest.blood ? ` (${savedRequest.blood})` : ''}. Please contact emergency services for immediate help.`
+                : 'Ask a health worker to add facility details so matching results can appear here.';
             results.innerHTML = `
                 <div class="bg-surface-container-lowest rounded-3xl p-8 border border-outline-variant shadow-sm text-center min-h-[280px] flex flex-col items-center justify-center gap-4">
                     <div class="w-16 h-16 rounded-full bg-primary/10 text-primary flex items-center justify-center">
                         <span class="material-symbols-outlined text-4xl">local_hospital</span>
                     </div>
                     <div>
-                        <h3 class="text-headline-md font-bold text-on-surface">Facility data has not been published</h3>
-                        <p class="text-body-md text-on-surface-variant max-w-md mt-2">Patient results will stay empty until a health worker saves real facility resources, contact details, and availability.</p>
+                        <h3 class="text-headline-md font-bold text-on-surface">${hasRequest ? 'No facility currently matches' : 'Facility data has not been published'}</h3>
+                        <p class="text-body-md text-on-surface-variant max-w-md mt-2">${hasRequest ? 'No facility reports the resource or service required for this request.' : 'Patient results will stay empty until a health worker saves real facility resources, contact details, and availability.'}</p>
                     </div>
-                    <button class="bg-primary-container text-white px-6 py-3 rounded-xl font-button" onclick="window.location.href='healthWorkerFacility.html'">Add Facility Details</button>
+
                 </div>
             `;
             summary.innerHTML = `
@@ -358,8 +476,10 @@
                 </div>
             `;
         } else {
-            title.textContent = 'Here are the available facilities';
-            description.textContent = `${facilities.length} facility record${facilities.length === 1 ? '' : 's'} submitted by health workers.`;
+            title.textContent = hasRequest ? 'Facilities matching your request' : 'Here are the available facilities';
+            description.textContent = hasRequest
+                ? `Showing ${facilities.length} ${needLabel}${savedRequest.blood ? ` (${savedRequest.blood})` : ''} match${facilities.length === 1 ? '' : 'es'} with the required capability.`
+                : `${facilities.length} facility record${facilities.length === 1 ? '' : 's'} submitted by health workers.`;
             results.innerHTML = facilities.map((facility, index) => {
                 const chips = [
                     chip('air', `${facility.oxygen} oxygen unit${Number(facility.oxygen) === 1 ? '' : 's'}`),
@@ -368,7 +488,7 @@
                     ...facility.services.map(service => chip('medical_services', service))
                 ].join('');
                 return `
-                    <div class="bg-surface-container-lowest rounded-3xl p-6 border ${index === 0 ? 'border-2 border-primary' : 'border-outline-variant'} shadow-sm group hover:shadow-md transition-all duration-300">
+                    <div data-facility-card data-status="${String(facility.status || '').toLowerCase()}" data-oxygen="${Number(facility.oxygen || 0)}" data-beds="${Number(facility.beds || 0)}" class="bg-surface-container-lowest rounded-3xl p-6 border ${index === 0 ? 'border-2 border-primary' : 'border-outline-variant'} shadow-sm group hover:shadow-md transition-all duration-300">
                         <div class="flex flex-col md:flex-row gap-6">
                             <div class="w-full md:w-48 h-32 md:h-40 rounded-2xl bg-surface-variant flex items-center justify-center text-primary">
                                 <span class="material-symbols-outlined text-[72px]">local_hospital</span>
@@ -398,8 +518,9 @@
                                 ${facility.notes ? `<p class="text-body-md text-on-surface-variant">${facility.notes}</p>` : ''}
                             </div>
                             <div class="flex md:flex-col justify-end gap-3 min-w-[140px]">
-                                <button class="flex-grow md:flex-none bg-surface border border-outline px-4 py-2.5 rounded-xl text-button hover:bg-surface-variant transition-colors">Details</button>
-                                <button class="flex-grow md:flex-none bg-primary text-on-primary px-4 py-2.5 rounded-xl text-button shadow-md hover:bg-on-primary-fixed-variant transition-all flex items-center justify-center gap-2">
+                                <button type="button" data-action="details" data-index="${index}" class="flex-grow md:flex-none bg-surface border border-outline px-4 py-2.5 rounded-xl text-button hover:bg-surface-variant transition-colors">Details</button>
+                                <button onclick="openFacilityMap(${index})" class="flex-grow md:flex-none bg-surface border border-primary/30 text-primary px-4 py-2.5 rounded-xl text-button hover:bg-primary/5 transition-colors flex items-center justify-center gap-2"><span class="material-symbols-outlined text-sm">map</span>View on Map</button>
+                                <button type="button" data-action="refer" data-index="${index}" class="flex-grow md:flex-none bg-primary text-on-primary px-4 py-2.5 rounded-xl text-button shadow-md hover:bg-on-primary-fixed-variant transition-all flex items-center justify-center gap-2">
                                     Refer Now
                                     <span class="material-symbols-outlined text-sm">arrow_forward</span>
                                 </button>
@@ -433,6 +554,52 @@
             `;
         }
 
+        const filterDialog = document.getElementById('facility-filter-dialog');
+        const detailsDialog = document.getElementById('facility-details-dialog');
+        document.getElementById('view-matched-map').disabled = facilities.length === 0;
+        document.querySelector('.fixed.bottom-24.right-6')?.addEventListener('click', () => window.openFacilityMap(0));
+        document.getElementById('results-back').addEventListener('click', () => {
+            window.location.href = hasRequest ? 'requestHelp.html' : 'dashboard.html';
+        });
+        document.getElementById('view-matched-map').addEventListener('click', () => window.openFacilityMap(0));
+        document.getElementById('filter-facilities').addEventListener('click', () => filterDialog.showModal());
+        document.getElementById('close-facility-details').addEventListener('click', () => detailsDialog.close());
+        results.addEventListener('click', event => {
+            const button = event.target.closest('[data-action]');
+            if (!button) return;
+            const index = Number(button.dataset.index);
+            if (button.dataset.action === 'details') window.openFacilityDetails(index);
+            if (button.dataset.action === 'map') window.openFacilityMap(index);
+            if (button.dataset.action === 'refer') window.referToFacility(index);
+        });
+        document.getElementById('facility-filter-form').addEventListener('submit', event => {
+            event.preventDefault();
+            const availability = document.getElementById('filter-availability').value;
+            const minOxygen = Number(document.getElementById('filter-min-oxygen').value || 0);
+            const minBeds = Number(document.getElementById('filter-min-beds').value || 0);
+            const cards = [...results.querySelectorAll('[data-facility-card]')];
+            let shown = 0;
+            cards.forEach(card => {
+                const matches = (availability !== 'open' || card.dataset.status.includes('open'))
+                    && Number(card.dataset.oxygen) >= minOxygen
+                    && Number(card.dataset.beds) >= minBeds;
+                card.hidden = !matches;
+                if (matches) shown++;
+            });
+            if (cards.length) description.textContent = `Showing ${shown} of ${cards.length} matching facilities after filters.`;
+            filterDialog.close();
+        });
+        document.getElementById('reset-facility-filters').addEventListener('click', () => {
+            document.getElementById('filter-availability').value = 'all';
+            document.getElementById('filter-min-oxygen').value = '0';
+            document.getElementById('filter-min-beds').value = '0';
+            results.querySelectorAll('[data-facility-card]').forEach(card => { card.hidden = false; });
+            description.textContent = hasRequest
+                ? `Showing ${facilities.length} ${needLabel}${savedRequest.blood ? ` (${savedRequest.blood})` : ''} match${facilities.length === 1 ? '' : 'es'} with the required capability.`
+                : `${facilities.length} facility record${facilities.length === 1 ? '' : 's'} submitted by health workers.`;
+            filterDialog.close();
+        });
+
         // Simple micro-interaction for cards
         document.querySelectorAll('.group').forEach(card => {
             card.addEventListener('click', () => {
@@ -440,5 +607,6 @@
                 setTimeout(() => card.classList.remove('scale-[0.98]'), 200);
             });
         });
+        })();
     </script>
 </body></html>

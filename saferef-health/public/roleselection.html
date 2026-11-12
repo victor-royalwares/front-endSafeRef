@@ -36,7 +36,7 @@
 <p class="text-body-lg font-body-lg text-on-surface-variant">Select your role to personalize your experience</p>
 </div>
 <!-- Bento Grid of Roles -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter w-full">
+<div class="grid grid-cols-1 gap-gutter w-full">
 <!-- Option 1: Patient / Caregiver -->
 <button class="role-card flex flex-col p-6 rounded-xl bg-surface-container-lowest border-2 border-transparent shadow-sm text-left group" data-target="userAuth.html" onclick="selectRole(this)">
 <div class="icon-container w-14 h-14 rounded-lg bg-surface-container-low flex items-center justify-center text-primary mb-6 transition-colors duration-300">
@@ -51,34 +51,7 @@
 <span class="material-symbols-outlined ml-1 text-md" data-icon="arrow_forward">arrow_forward</span>
 </div>
 </button>
-<!-- Option 2: Health Worker / CHEW -->
-<button class="role-card flex flex-col p-6 rounded-xl bg-surface-container-lowest border-2 border-transparent shadow-sm text-left group" data-target="healthWorkerAuth.html" onclick="selectRole(this)">
-<div class="icon-container w-14 h-14 rounded-lg bg-surface-container-low flex items-center justify-center text-primary mb-6 transition-colors duration-300">
-<span class="material-symbols-outlined text-[32px]" data-icon="medical_services">medical_services</span>
-</div>
-<div class="flex flex-col gap-1 mb-8">
-<h3 class="text-headline-md font-headline-md text-on-surface">Health Worker / CHEW</h3>
-<p class="text-body-md font-body-md text-on-surface-variant">I'm a professional providing primary care and referral support.</p>
-</div>
-<div class="mt-auto flex items-center text-primary font-button group-hover:gap-2 transition-all">
-<span>Provide Care</span>
-<span class="material-symbols-outlined ml-1 text-md" data-icon="arrow_forward">arrow_forward</span>
-</div>
-</button>
-<!-- Option 3: Facility / Hospital -->
-<button class="role-card flex flex-col p-6 rounded-xl bg-surface-container-lowest border-2 border-transparent shadow-sm text-left group" data-target="healthWorkerAuth.html" onclick="selectRole(this)">
-<div class="icon-container w-14 h-14 rounded-lg bg-surface-container-low flex items-center justify-center text-primary mb-6 transition-colors duration-300">
-<span class="material-symbols-outlined text-[32px]" data-icon="hospital">festival</span>
-</div>
-<div class="flex flex-col gap-1 mb-8">
-<h3 class="text-headline-md font-headline-md text-on-surface">Facility / Hospital</h3>
-<p class="text-body-md font-body-md text-on-surface-variant">Manage medical resources, capacity, and incoming requests.</p>
-</div>
-<div class="mt-auto flex items-center text-primary font-button group-hover:gap-2 transition-all">
-<span>Manage Facility</span>
-<span class="material-symbols-outlined ml-1 text-md" data-icon="arrow_forward">arrow_forward</span>
-</div>
-</button>
+
 </div>
 <!-- Footer Message -->
 <div class="mt-12 flex flex-col items-center gap-4">

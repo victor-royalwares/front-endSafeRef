@@ -76,6 +76,7 @@ body { font-family: 'Manrope', sans-serif; }
 .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
 .panel-surface { background: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(242,244,246,0.78)); backdrop-filter: blur(16px); }
 </style>
+  <script src="api-config.js"></script>
 </head>
 <body class="bg-background text-on-background min-h-screen">
 <header class="fixed top-0 left-0 right-0 h-16 px-margin-mobile md:px-margin-desktop flex items-center justify-between bg-surface/80 backdrop-blur-md z-50">
@@ -199,8 +200,8 @@ document.querySelectorAll('form').forEach(form => {
 
         const payload = Object.fromEntries(new FormData(form).entries());
         const endpoint = form.id === 'register-panel'
-            ? 'http://127.0.0.1:5000/api/healthworker/register'
-            : 'http://127.0.0.1:5000/api/healthworker/login';
+            ? `${window.API_BASE_URL}/api/healthworker/register`
+            : `${window.API_BASE_URL}/api/healthworker/login`;
 
         try {
             const response = await fetch(endpoint, {

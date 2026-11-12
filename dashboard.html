@@ -144,21 +144,21 @@
 <span class="material-symbols-outlined" data-icon="map">map</span>
 <span class="text-label-md font-label-md">Map</span>
 </a>
-<a class="flex items-center gap-stack-md px-stack-md py-3 rounded-lg text-on-surface-variant hover:bg-secondary-container/20 transition-colors" href="dashboard.html">
+<a class="flex items-center gap-stack-md px-stack-md py-3 rounded-lg text-on-surface-variant hover:bg-secondary-container/20 transition-colors" href="profile.html">
 <span class="material-symbols-outlined" data-icon="person">person</span>
 <span class="text-label-md font-label-md">Profile</span>
 </a>
 </nav>
 <!-- Footer Tabs -->
 <div class="mt-auto space-y-unit pt-stack-lg border-t border-outline-variant">
-<a class="flex items-center gap-stack-md px-stack-md py-3 rounded-lg text-on-surface-variant hover:bg-secondary-container/20 transition-colors" href="dashboard.html">
+<a class="flex items-center gap-stack-md px-stack-md py-3 rounded-lg text-on-surface-variant hover:bg-secondary-container/20 transition-colors" href="profile.html">
 <span class="material-symbols-outlined" data-icon="settings">settings</span>
 <span class="text-label-md font-label-md">Settings</span>
 </a>
-<a class="flex items-center gap-stack-md px-stack-md py-3 rounded-lg text-on-surface-variant hover:bg-secondary-container/20 transition-colors" href="onboarding.html">
+<button class="w-full flex items-center gap-stack-md px-stack-md py-3 rounded-lg text-error hover:bg-error-container/20 transition-colors text-left" onclick="localStorage.removeItem('saferefUser'); window.location.href='onboarding.html'">
 <span class="material-symbols-outlined" data-icon="logout">logout</span>
 <span class="text-label-md font-label-md">Log Out</span>
-</a>
+</button>
 </div>
 </div>
 </aside>
@@ -186,7 +186,7 @@
 <span class="material-symbols-outlined text-sm" data-icon="verified_user" style="font-variation-settings: 'FILL' 1;">verified_user</span>
 </span>
 <span class="text-label-md font-bold text-on-surface">Emergency Status</span>
-<div class="w-8 h-8 rounded-full overflow-hidden border-2 border-surface-container-high">
+<div class="w-8 h-8 rounded-full overflow-hidden border-2 border-surface-container-high cursor-pointer" onclick="window.location.href='profile.html'">
 <img class="w-full h-full object-cover" data-alt="A professional headshot of a friendly medical coordinator in a modern healthcare office. She has a warm, empathetic expression, wearing a clean white clinical coat with a subtle teal stethoscope around her neck. The background is softly blurred with clean hospital lighting and glass surfaces, conveying a trustworthy and clinical professional atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrql234teD8W0mjD_Png1tdzutRDnoTN6tkSB_Ir_BpixvGeCWfu7n0-AraDOH3e0NkQoGywRmcVB65SKRJvs46Ge0l_Gb5VwqbdnGbFtBAeC4D1_GcWAIqpgN55Uvgzyi3QSSF9jeTChOM1UxcskIQZvqZXnhWkjeJYAwdmOTu7vGOvAPZZuDk4Sha6MDYshqRHH6dRNKnU3xyKDsoxN3Vcs0xQHEQPvm2exd9VDwy-7pX-haJKLtxQ"/>
 </div>
 </div>
@@ -195,8 +195,8 @@
 <!-- Dashboard Canvas -->
 <div class="px-margin-desktop py-stack-lg max-w-[1280px] mx-auto">
 <div class="mb-stack-lg">
-<h2 class="text-headline-lg font-headline-lg text-on-surface">Welcome back</h2>
-<p class="text-body-lg text-on-surface-variant">Here is an overview of available facility resources.</p>
+<h2 class="text-headline-lg font-headline-lg text-on-surface" id="welcome-header">Welcome back</h2>
+<p class="text-body-lg text-on-surface-variant" id="welcome-sub">Here is an overview of available facility resources.</p>
 </div>
 <!-- Bento Grid Layout -->
 <div class="grid grid-cols-12 gap-gutter">
@@ -397,6 +397,24 @@
             searchInput.parentElement.classList.remove('ring-2', 'ring-primary');
         });
 
+        // Dynamic User Welcome Greeting
+        const user = JSON.parse(localStorage.getItem('saferefUser') || 'null');
+        const welcomeHeader = document.getElementById('welcome-header');
+        const welcomeSub = document.getElementById('welcome-sub');
+
+        if (!user || user.isGuest) {
+            if (welcomeHeader) welcomeHeader.textContent = "WELCOME Guest";
+            if (welcomeSub) welcomeSub.textContent = "You are browsing as a guest. Find nearby facilities and emergency referrals below.";
+        } else if (user.is_first_login || user.login_count === 1) {
+            const userName = user.name ? user.name : 'User';
+            if (welcomeHeader) welcomeHeader.textContent = `WELCOME ${userName}`;
+            if (welcomeSub) welcomeSub.textContent = "Your emergency profile is ready. Explore facilities and resources near you.";
+        } else {
+            const userName = user.name ? user.name : 'User';
+            if (welcomeHeader) welcomeHeader.textContent = `WELCOME BACK ${userName}`;
+            if (welcomeSub) welcomeSub.textContent = "Here is an overview of available facility resources.";
+        }
+
         const facilities = JSON.parse(localStorage.getItem('saferefFacilities') || '[]');
         const referralsList = document.getElementById('recent-referrals-list');
         const nearbySummary = document.getElementById('nearby-summary');
@@ -404,7 +422,10 @@
 
         referralsList.innerHTML = '';
         referralsList.style.display = 'block';
-        if (!facilities.length) {
+        const isGuestOrNewUser = !user || user.isGuest || user.is_first_login || Number(user.login_count || 0) <= 1;
+        if (isGuestOrNewUser) {
+            referralsList.innerHTML = '';
+        } else if (!facilities.length) {
             referralsList.innerHTML = `
                 <div class="p-card-padding text-center min-h-[180px] flex flex-col items-center justify-center gap-stack-sm">
                     <span class="material-symbols-outlined text-primary text-4xl">local_hospital</span>

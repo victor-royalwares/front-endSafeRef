@@ -296,13 +296,17 @@
         });
 
         const facilities = JSON.parse(localStorage.getItem('saferefFacilities') || '[]');
+        const currentUser = JSON.parse(localStorage.getItem('saferefUser') || 'null');
+        const isGuestOrNewUser = !currentUser || currentUser.isGuest || currentUser.is_first_login || Number(currentUser.login_count || 0) <= 1;
         const referralsList = document.getElementById('recent-referrals-list');
         const nearbySummary = document.getElementById('nearby-summary');
         const summaryCards = document.getElementById('dashboard-summary-cards');
 
         referralsList.innerHTML = '';
         referralsList.style.display = 'block';
-        if (!facilities.length) {
+        if (isGuestOrNewUser) {
+            referralsList.innerHTML = '';
+        } else if (!facilities.length) {
             referralsList.innerHTML = `
                 <div class="p-card-padding text-center min-h-[180px] flex flex-col items-center justify-center gap-stack-sm">
                     <span class="material-symbols-outlined text-primary text-4xl">local_hospital</span>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Facility Notifications - SafeRef</title>
+<script>(function(){try{const w=JSON.parse(localStorage.getItem('saferefHealthWorker')||'null');if(!w?.id||!w?.email||!w?.session_token||w.user_type!=='healthworker'||w.isGuest)location.replace('healthWorkerAuth.html');}catch(_){location.replace('healthWorkerAuth.html');}})();</script>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>body{font-family:Manrope,sans-serif}</style>
+  <script src="api-config.js"></script>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900">
+<aside class="fixed left-0 top-0 z-40 hidden h-screen w-64 flex-col bg-white py-6 shadow-sm md:flex"><div class="mb-8 px-6"><div class="flex items-center gap-2 text-red-900"><span class="material-symbols-outlined text-3xl">medical_services</span><b class="text-xl">SafeRef</b></div><p class="mt-1 text-xs text-slate-500">Health worker workspace</p></div><nav class="flex-1 space-y-1 px-4"><a class="flex items-center gap-3 rounded-xl px-4 py-3 text-slate-600 hover:bg-slate-50" href="healthWorkerFacility.html"><span class="material-symbols-outlined">local_hospital</span>Facility Setup</a><a class="flex items-center gap-3 rounded-xl bg-red-50 px-4 py-3 font-bold text-red-900" href="healthWorkerNotifications.html"><span class="material-symbols-outlined">notifications</span>Notifications</a></nav><button class="mx-4 flex items-center gap-3 rounded-xl px-4 py-3 text-red-800 hover:bg-red-50" type="button" id="logout"><span class="material-symbols-outlined">logout</span>Log Out</button></aside>
+<header class="fixed left-0 right-0 top-0 z-30 flex h-16 items-center justify-between bg-white/90 px-5 backdrop-blur md:left-64 md:px-10"><div><h1 class="text-xl font-bold">Hospital Notifications</h1><p class="hidden text-xs text-slate-500 sm:block">Incoming referrals for facilities linked to your account</p></div><div class="flex items-center gap-2"><a class="rounded-xl px-3 py-2 text-sm font-semibold text-red-900 hover:bg-red-50" href="healthWorkerFacility.html">Facility setup</a><button id="refresh-notifications" class="flex items-center gap-2 rounded-xl border border-slate-300 px-4 py-2 text-sm font-semibold hover:bg-slate-50"><span class="material-symbols-outlined text-lg">refresh</span>Refresh</button></div></header>
+<main class="px-5 pb-12 pt-24 md:ml-64 md:px-10"><div class="mx-auto max-w-5xl"><div class="mb-5 rounded-2xl bg-red-900 p-6 text-white"><p class="text-xs font-bold uppercase tracking-widest">Incoming referrals</p><h2 class="mt-2 text-2xl font-bold">Patient arrival notifications</h2><p class="mt-2 max-w-2xl text-sm text-white/85">New referrals to your facilities appear here with patient contact details, emergency need, location, and estimated arrival.</p></div><div id="notice" class="mb-4 hidden rounded-xl p-4 text-sm"></div><section id="notifications" class="space-y-4"><div class="rounded-2xl bg-white p-8 text-center text-slate-500 shadow-sm">Loading notifications...</div></section></div></main>
+<script>
+const worker=JSON.parse(localStorage.getItem('saferefHealthWorker')||'null');
+const apiBase=window.API_BASE_URL;
+const list=document.getElementById('notifications'),notice=document.getElementById('notice');
+const needNames={general:'Emergency care',maternal:'Maternity care',blood:'Blood support',oxygen:'Oxygen support'};
+const esc=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+function showError(message){notice.textContent=message;notice.className='mb-4 rounded-xl bg-red-100 p-4 text-sm text-red-800';}
+async function loadNotifications(){
+ try{
+  const response=await fetch(`${apiBase}/api/referrals/notifications`,{headers:{Authorization:`Bearer ${worker.session_token}`}});
+  const data=await response.json();
+  if(response.status===401){localStorage.removeItem('saferefHealthWorker');location.replace('healthWorkerAuth.html');return;}
+  if(!response.ok)throw new Error(data.message||'Notifications could not be loaded.');
+  notice.classList.add('hidden');
+  if(!data.notifications?.length){list.innerHTML='<div class="rounded-2xl border border-slate-200 bg-white p-10 text-center shadow-sm"><span class="material-symbols-outlined text-4xl text-slate-400">notifications_off</span><h3 class="mt-3 font-bold">No notifications yet</h3><p class="mt-1 text-sm text-slate-500">New patient referrals to your facilities will appear here.</p></div>';return;}
+  list.innerHTML=data.notifications.map(item=>{
+   const arrival=item.expected_arrival?new Date(item.expected_arrival).toLocaleString():'ETA unavailable';
+   const created=item.created_at?new Date(item.created_at.replace(' ','T')+(item.created_at.endsWith('Z')?'':'Z')).toLocaleString():'';
+   const need=needNames[item.need]||item.need||'Emergency request';
+   return `<article class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"><div class="flex flex-wrap items-start justify-between gap-3"><div><p class="text-xs font-bold uppercase tracking-wider text-red-800">${esc(need)}</p><h3 class="mt-1 text-lg font-bold">${esc(item.patient_name||'Patient')}</h3><p class="text-sm text-slate-500">For ${esc(item.facility_name)}${created?` | Received ${esc(created)}`:''}</p></div><span class="rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-800">Referral #${esc(item.referral_id)}</span></div><div class="mt-4 grid gap-3 text-sm sm:grid-cols-2"><p><b>Patient phone:</b> ${item.patient_phone?`<a class="text-blue-700 underline" href="tel:${esc(item.patient_phone)}">${esc(item.patient_phone)}</a>`:'Not provided'}</p><p><b>Patient location:</b> ${esc(item.location||'Not provided')}</p><p><b>Expected arrival:</b> ${esc(arrival)}${item.eta_minutes?` (${esc(item.eta_minutes)} min)`:''}</p><p><b>Emergency needed:</b> ${esc(need)}</p></div>${item.message?`<p class="mt-3 rounded-xl bg-slate-50 p-3 text-sm text-slate-700">${esc(item.message)}</p>`:''}</article>`;
+  }).join('');
+ }catch(error){showError(error.message);}
+}
+document.getElementById('refresh-notifications').addEventListener('click',loadNotifications);
+document.getElementById('logout').addEventListener('click',()=>{localStorage.removeItem('saferefHealthWorker');location.href='healthWorkerAuth.html';});
+if(worker?.session_token){loadNotifications();window.setInterval(loadNotifications,20000);}
+</script></body></html>

@@ -4,6 +4,27 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Facility Setup - SafeRef Health</title>
+<script>
+// Strict Route Guard: Health Worker Access Only
+(function enforceHealthWorkerGuard() {
+    try {
+        const hwRaw = localStorage.getItem('saferefHealthWorker');
+        if (!hwRaw) {
+            alert('Access Denied: This area is strictly reserved for verified health workers.');
+            window.location.replace('healthWorkerAuth.html');
+            return;
+        }
+        const hw = JSON.parse(hwRaw);
+        if (!hw || !hw.id || !hw.email || (hw.user_type && hw.user_type !== 'healthworker') || hw.isGuest) {
+            alert('Access Restricted: Patients and guest users cannot access the health worker facility page.');
+            window.location.replace('dashboard.html');
+            return;
+        }
+    } catch (e) {
+        window.location.replace('healthWorkerAuth.html');
+    }
+})();
+</script>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -76,6 +97,7 @@ tailwind.config = {
 body { font-family: 'Manrope', sans-serif; }
 .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
 </style>
+  <script src="api-config.js"></script>
 </head>
 <body class="bg-background text-on-background min-h-screen">
 <aside class="hidden md:flex h-screen w-64 fixed left-0 top-0 flex-col bg-surface-container-low shadow-sm py-stack-lg z-50">
@@ -91,17 +113,13 @@ body { font-family: 'Manrope', sans-serif; }
 <span class="material-symbols-outlined">local_hospital</span>
 <span class="text-label-md">Facility Setup</span>
 </a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-secondary-container/20 transition-colors" href="dashboard.html">
-<span class="material-symbols-outlined">dashboard</span>
-<span class="text-label-md">Dashboard Preview</span>
-</a>
-<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-secondary-container/20 transition-colors" href="nearestfacilities.html">
-<span class="material-symbols-outlined">visibility</span>
-<span class="text-label-md">User View</span>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all hover:bg-secondary-container/20 text-on-surface-variant" href="healthWorkerNotifications.html">
+<span class="material-symbols-outlined">notifications</span>
+<span class="text-label-md">Notifications</span>
 </a>
 </nav>
 <div class="px-4 border-t border-outline-variant/30 pt-6">
-<button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-error hover:bg-error-container/20 transition-colors" onclick="window.location.href='onboarding.html'">
+<button class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-error hover:bg-error-container/20 transition-colors" onclick="localStorage.removeItem('saferefHealthWorker'); window.location.href='onboarding.html'">
 <span class="material-symbols-outlined">logout</span>
 <span class="text-label-md">Log Out</span>
 </button>
@@ -112,13 +130,9 @@ body { font-family: 'Manrope', sans-serif; }
 <span class="material-symbols-outlined">arrow_back</span>
 </button>
 <div>
-<h1 class="text-headline-md font-bold text-on-surface">Facility Details</h1>
-<p class="hidden sm:block text-label-md text-on-surface-variant">These details power the patient facility results.</p>
+<h1 id="worker-welcome" class="text-headline-md font-bold text-on-surface">WELCOME</h1>
+<p class="hidden sm:block text-label-md text-on-surface-variant">Manage the facilities linked to your health worker account.</p>
 </div>
-<button class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary" onclick="window.location.href='dashboard.html'">
-<span class="material-symbols-outlined text-[18px]">preview</span>
-<span class="text-label-md">Preview</span>
-</button>
 </header>
 <main class="md:ml-64 pt-24 pb-12 px-margin-mobile md:px-margin-desktop">
 <div class="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-gutter">
@@ -228,9 +242,13 @@ Clear Saved Data
 </div>
 </main>
 <script>
-const storageKey = 'saferefFacilities';
+const worker = JSON.parse(localStorage.getItem('saferefHealthWorker') || 'null');
+const storageKey = `saferefFacilities:${worker?.id || 'unknown'}`;
 const form = document.getElementById('facility-form');
 const preview = document.getElementById('saved-preview');
+const welcome = document.getElementById('worker-welcome');
+const displayName = worker?.facility || worker?.name || worker?.role || 'Health Worker';
+welcome.textContent = `WELCOME ${displayName}`;
 
 function getFacilities() {
     try {
@@ -246,25 +264,15 @@ function renderPreview() {
         preview.textContent = 'No facility has been saved yet.';
         return;
     }
-    const facility = facilities[0];
-    preview.innerHTML = `
-        <div class="space-y-2">
-            <p class="font-bold text-on-surface">${facility.name}</p>
-            <p>${facility.type} - ${facility.address}</p>
-            <p>${facility.status} - ${facility.oxygen} oxygen units - ${facility.beds} beds</p>
-        </div>
-    `;
-}
-
-function fillForm() {
-    const facility = getFacilities()[0];
-    if (!facility) return;
-    Object.entries(facility).forEach(([key, value]) => {
-        if (Array.isArray(value)) return;
-        if (form.elements[key]) form.elements[key].value = value;
-    });
-    form.querySelectorAll('input[name="services"]').forEach(input => input.checked = facility.services.includes(input.value));
-    form.querySelectorAll('input[name="blood"]').forEach(input => input.checked = facility.blood.includes(input.value));
+    preview.replaceChildren(...facilities.map(facility => {
+        const card = document.createElement('div');
+        card.className = 'space-y-1 border-b border-outline-variant/30 pb-3 last:border-0';
+        const name = document.createElement('p'); name.className = 'font-bold text-on-surface'; name.textContent = facility.name;
+        const address = document.createElement('p'); address.textContent = `${facility.type || 'Healthcare facility'} - ${facility.address || ''}`;
+        const capacity = document.createElement('p'); capacity.textContent = `${facility.status || 'Status unavailable'} - ${facility.oxygen || 0} oxygen units - ${facility.beds || 0} beds`;
+        card.append(name, address, capacity);
+        return card;
+    }));
 }
 
 form.addEventListener('submit', async event => {
@@ -281,11 +289,9 @@ form.addEventListener('submit', async event => {
         beds: Number(data.get('beds') || 0),
         services: data.getAll('services'),
         blood: data.getAll('blood'),
-        notes: data.get('notes').trim()
+        notes: data.get('notes').trim(),
+        healthworker_id: worker?.id
     };
-
-    localStorage.setItem(storageKey, JSON.stringify([facility]));
-    renderPreview();
 
     const button = form.querySelector('button[type="submit"]');
     const original = button.innerHTML;
@@ -293,14 +299,20 @@ form.addEventListener('submit', async event => {
     button.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span><span>Saving...</span>';
 
     try {
-        const response = await fetch('http://127.0.0.1:5000/api/hospitals/', {
+        const response = await fetch(`${window.API_BASE_URL}/api/hospitals/`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(facility)
         });
         const result = await response.json();
         if (!response.ok) throw new Error(result.message || 'Could not save');
-
+        const facilities = getFacilities();
+        facilities.push(result.facility || facility);
+        localStorage.setItem(storageKey, JSON.stringify(facilities));
+        const allFacilities = JSON.parse(localStorage.getItem('saferefFacilities') || '[]');
+        allFacilities.push(result.facility || facility);
+        localStorage.setItem('saferefFacilities', JSON.stringify(allFacilities));
+        renderPreview();
         button.innerHTML = '<span class="material-symbols-outlined">check_circle</span><span>Saved</span>';
     } catch (error) {
         button.innerHTML = `<span>${error.message}</span>`;
@@ -313,13 +325,16 @@ form.addEventListener('submit', async event => {
 });
 
 document.getElementById('clear-facility').addEventListener('click', () => {
-    localStorage.removeItem(storageKey);
     form.reset();
-    renderPreview();
 });
 
-renderPreview();
-fillForm();
+fetch(`${window.API_BASE_URL}/api/hospitals/?healthworker_id=${encodeURIComponent(worker?.id || '')}`)
+    .then(response => response.ok ? response.json() : Promise.reject())
+    .then(data => {
+        if (Array.isArray(data.facilities)) localStorage.setItem(storageKey, JSON.stringify(data.facilities));
+        renderPreview();
+    })
+    .catch(renderPreview);
 </script>
 </body>
 </html>

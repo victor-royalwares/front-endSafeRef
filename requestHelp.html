@@ -122,6 +122,7 @@
             display: block;
         }
     </style>
+  <script src="api-config.js"></script>
 </head>
 <body class="bg-background text-on-background min-h-screen">
 <!-- Top Navigation Bar -->
@@ -264,6 +265,14 @@
 </div>
 </label>
 </div>
+<div class="hidden" id="blood-type-field">
+<label class="block text-label-md font-bold text-on-surface-variant mb-2" for="blood-type">REQUIRED BLOOD TYPE</label>
+<select class="w-full px-4 py-3 bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary" id="blood-type" name="blood">
+<option value="">Select blood type</option>
+<option>O+</option><option>O-</option><option>A+</option><option>A-</option>
+<option>B+</option><option>B-</option><option>AB+</option><option>AB-</option>
+</select>
+</div>
 <!-- Location Section -->
 <div class="bg-surface-container-lowest rounded-2xl p-card-padding border border-outline-variant/30 shadow-sm">
 <label class="block text-label-md font-bold text-on-surface-variant mb-3">YOUR LOCATION</label>
@@ -307,25 +316,31 @@
             const payload = {
                 need: e.target.querySelector('input[name="need"]:checked')?.value || 'general',
                 location: formData.get('location') || '',
-                message: 'Emergency support request'
+                blood: formData.get('blood') || '',
+                message: payloadBloodMessage(e.target.querySelector('input[name="need"]:checked')?.value, formData.get('blood'))
             };
 
             try {
-                const referralResponse = await fetch('http://127.0.0.1:5000/api/referrals/', {
+                const matchResponse = await fetch(`${window.API_BASE_URL}/api/ai/recommend`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const matchData = await matchResponse.json();
+                if (!matchResponse.ok) throw new Error(matchData.message || 'Could not match facilities');
+                payload.matched_facilities = matchData.data?.ranked_facilities || [];
+
+                const referralResponse = await fetch(`${window.API_BASE_URL}/api/referrals/`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
                 const referralData = await referralResponse.json();
                 if (!referralResponse.ok) throw new Error(referralData.message || 'Referral request failed');
-
-                await fetch('http://127.0.0.1:5000/api/ai/analyze', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
+                payload.referral_id = referralData.referral?.id;
 
                 localStorage.setItem('saferefRequest', JSON.stringify(payload));
+                localStorage.setItem('saferefMatchedFacilities', JSON.stringify(payload.matched_facilities));
                 window.location.href = 'aiProcessing.html';
             } catch (error) {
                 btn.innerHTML = `<span>${error.message}</span>`;
@@ -337,12 +352,22 @@
             }
         });
 
+        function payloadBloodMessage(need, blood) {
+            return need === 'blood' && blood ? `Emergency support request — Blood type ${blood}` : 'Emergency support request';
+        }
+
         // Click interaction for selection cards
         const radios = document.querySelectorAll('.custom-radio');
+        const bloodTypeField = document.getElementById('blood-type-field');
+        const bloodTypeSelect = document.getElementById('blood-type');
+        const syncBloodTypeRequirement = () => {
+            const bloodSelected = document.querySelector('input[name="need"]:checked')?.value === 'blood';
+            bloodTypeField.classList.toggle('hidden', !bloodSelected);
+            bloodTypeSelect.required = bloodSelected;
+        };
         radios.forEach(radio => {
-            radio.addEventListener('change', () => {
-                // Potential feedback logic here
-            });
+            radio.addEventListener('change', syncBloodTypeRequirement);
         });
+        syncBloodTypeRequirement();
     </script>
 </body></html>

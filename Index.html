@@ -77,6 +77,7 @@ body { font-family: 'Manrope', sans-serif; }
 .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
 .glass-card { background: rgba(255,255,255,0.78); backdrop-filter: blur(16px); }
 </style>
+  <script src="api-config.js"></script>
 </head>
 <body class="bg-background text-on-background min-h-screen">
 <header class="fixed top-0 left-0 right-0 h-16 px-margin-mobile md:px-margin-desktop flex items-center justify-between bg-surface/80 backdrop-blur-md z-50">
@@ -84,10 +85,7 @@ body { font-family: 'Manrope', sans-serif; }
 <span class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-white material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">medical_services</span>
 <span class="text-headline-md font-bold text-primary">SafeRef Health</span>
 </button>
-<button class="hidden sm:flex items-center gap-2 px-4 py-2 rounded-full text-primary hover:bg-primary/10 transition-colors" onclick="window.location.href='healthWorkerAuth.html'">
-<span class="material-symbols-outlined text-[18px]">medical_services</span>
-<span class="text-label-md">Health worker</span>
-</button>
+
 </header>
 <main class="min-h-screen pt-24 pb-10 px-margin-mobile md:px-margin-desktop grid grid-cols-1 lg:grid-cols-12 gap-8 items-center max-w-[1280px] mx-auto">
 <section class="lg:col-span-6 space-y-stack-lg">
@@ -165,11 +163,29 @@ body { font-family: 'Manrope', sans-serif; }
 <span class="material-symbols-outlined">login</span>
 </button>
 </form>
-<p class="mt-stack-lg text-center text-label-md text-on-surface-variant">Secure access for patients, caregivers, and family responders.</p>
+<div class="mt-4 pt-4 border-t border-outline-variant/30 text-center">
+<button type="button" onclick="continueAsGuest()" class="text-primary hover:underline text-body-md font-semibold inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">person_outline</span>
+<span>Skip sign in &amp; use system as a guest</span>
+</button>
+</div>
+<p class="mt-stack-md text-center text-label-md text-on-surface-variant">Secure access for patients, caregivers, and family responders.</p>
 </div>
 </section>
 </main>
 <script>
+function continueAsGuest() {
+    localStorage.setItem('saferefUser', JSON.stringify({
+        isGuest: true,
+        name: 'Guest',
+        email: '',
+        phone: '',
+        location: 'Lagos, Nigeria',
+        login_count: 0
+    }));
+    window.location.href = 'dashboard.html';
+}
+
 document.querySelectorAll('.auth-tab').forEach(tab => {
     tab.addEventListener('click', () => {
         document.querySelectorAll('.auth-tab').forEach(item => {
@@ -192,8 +208,8 @@ document.querySelectorAll('form').forEach(form => {
 
         const payload = Object.fromEntries(new FormData(form).entries());
         const endpoint = form.id === 'register-panel'
-            ? 'http://127.0.0.1:5000/api/auth/register'
-            : 'http://127.0.0.1:5000/api/auth/login';
+            ? `${window.API_BASE_URL}/api/auth/register`
+            : `${window.API_BASE_URL}/api/auth/login`;
 
         try {
             const response = await fetch(endpoint, {
@@ -204,7 +220,8 @@ document.querySelectorAll('form').forEach(form => {
             const data = await response.json();
             if (!response.ok) throw new Error(data.message || 'Request failed');
 
-            localStorage.setItem('saferefUser', JSON.stringify(data.user || payload));
+            const userData = data.user || payload;
+            localStorage.setItem('saferefUser', JSON.stringify(userData));
             window.location.href = 'dashboard.html';
         } catch (error) {
             button.innerHTML = `<span>${error.message}</span>`;

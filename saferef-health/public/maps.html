@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
@@ -10,6 +10,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 
 <link rel="stylesheet" href="/css/output.css"/>
+<link href="https://api.mapbox.com/mapbox-gl-js/v3.14.0/mapbox-gl.css" rel="stylesheet"/>
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.14.0/mapbox-gl.js"></script>
+<script src="/config.js"></script>
 </head>
 <body class="bg-background text-on-surface">
 <!-- Top AppBar (Desktop) -->
@@ -149,7 +152,7 @@
 <h3 class="text-headline-md font-headline-md text-on-surface leading-tight">Lagos State Medical Center</h3>
 <div class="flex items-center gap-2 mt-1">
 <span class="material-symbols-outlined text-on-surface-variant text-sm" data-icon="location_on">location_on</span>
-<p class="text-body-md text-on-surface-variant">Ikeja, Lagos • 1.2 km away</p>
+<p class="text-body-md text-on-surface-variant">Ikeja, Lagos â€¢ 1.2 km away</p>
 </div>
 </div>
 </div>
@@ -213,21 +216,158 @@
 </button>
 </nav>
 <script>
-        // Simple micro-interaction for markers
-        document.querySelectorAll('.pulse').forEach(marker => {
-            marker.addEventListener('click', () => {
-                marker.classList.add('scale-110');
-                setTimeout(() => marker.classList.remove('scale-110'), 200);
-            });
-        });
+(() => {
+    const token = window.MAPBOX_ACCESS_TOKEN || '';
+    const canvas = document.querySelector('[data-location]');
+    if (!canvas || !window.mapboxgl) return;
+    if (!token) { canvas.textContent = 'Map unavailable. Configure a Mapbox access token to enable it.'; return; }
+    canvas.innerHTML = '';
+    canvas.style.background = '#e8edf0';
+    const mapEl = document.createElement('div');
+    mapEl.id = 'live-map';
+    Object.assign(mapEl.style, {position:'absolute',inset:'0',width:'100%',height:'100%'});
+    canvas.appendChild(mapEl);
+    mapboxgl.accessToken = token;
 
-        // Background scroll effect
-        window.addEventListener('scroll', () => {
-            const scroll = window.scrollY;
-            const map = document.querySelector('[data-location]');
-            if(map) {
-                map.style.backgroundPositionY = `${scroll * 0.1}px`;
+    const params = new URLSearchParams(location.search);
+    const readJson = key => { try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch (_) { return null; } };
+    const savedRequest = readJson('saferefRequest') || {};
+    const savedPatient = readJson('saferefUser') || {};
+    const savedLocationText = savedRequest.location || savedPatient.location || '';
+    const recommendation = readJson('saferefRecommendation') || readJson('saferefAIRecommendation') || {};
+    const selectedFacility = params.has('facility') ? readJson('saferefSelectedFacility') : null;
+    let facility = selectedFacility || recommendation.recommended_facility || recommendation.data?.recommended_facility || recommendation.facility || null;
+    let userPoint = null, userMarker = null, destinationMarker = null, map = null, destination = null;
+    const apiBase = typeof window.API_BASE_URL === 'string' ? window.API_BASE_URL : 'https://saferef-back.onrender.com';
+    const coords = (lat, lng) => lat !== null && lat !== undefined && lat !== '' && lng !== null && lng !== undefined && lng !== '' && Number.isFinite(Number(lat)) && Number.isFinite(Number(lng)) && Math.abs(Number(lat)) <= 90 && Math.abs(Number(lng)) <= 180;
+    if (!params.has('facility')) {
+        if (facility && coords(facility.lat, facility.lng)) destination = [Number(facility.lng), Number(facility.lat)];
+        else if (facility && coords(facility.latitude, facility.longitude)) destination = [Number(facility.longitude), Number(facility.latitude)];
+        else if (!facility && coords(params.get('lat'), params.get('lng'))) destination = [Number(params.get('lng')), Number(params.get('lat'))];
+    }
+
+    const details = document.querySelector('.fixed.bottom-0.left-0.right-0.md\\:left-auto');
+    if (details && !destination) details.style.display = 'none';
+    const ensureInfo = () => {
+        let info = document.getElementById('map-location-status');
+        if (!info) {
+            info = document.createElement('div'); info.id='map-location-status';
+            info.className='absolute top-20 left-4 md:top-20 md:left-8 z-30 rounded-xl bg-white/95 px-4 py-3 shadow-lg text-sm font-semibold text-slate-700';
+            canvas.appendChild(info);
+        }
+        return info;
+    };
+    const status = ensureInfo(); status.textContent = 'Finding your current locationâ€¦';
+    const report = document.createElement('section');
+    report.id = 'route-condition-report';
+    report.className = 'absolute top-36 left-4 md:top-36 md:left-8 z-30 w-[min(330px,calc(100vw-2rem))] rounded-xl bg-white/95 p-4 shadow-lg text-sm text-slate-700';
+    report.innerHTML = '<div class="font-bold text-slate-900">Traffic &amp; road report</div><p class="mt-1">Reports appear when a hospital route is selected.</p>';
+    canvas.appendChild(report);
+    map = new mapboxgl.Map({container:mapEl,style:'mapbox://styles/mapbox/streets-v12',center:[3.3792,6.5244],zoom:11});
+    map.addControl(new mapboxgl.NavigationControl({showCompass:true}), 'top-right');
+
+    const showUser = async point => {
+        userPoint = point;
+        if (!userMarker) {
+            const marker = document.createElement('div');
+            marker.className='w-5 h-5 rounded-full bg-blue-600 border-[3px] border-white shadow-lg';
+            userMarker = new mapboxgl.Marker({element:marker}).setPopup(new mapboxgl.Popup({offset:18}).setText('Your current location'));
+        }
+        userMarker.setLngLat(point).addTo(map);
+        map.flyTo({center:destination ? point : point, zoom:destination ? 12 : 14, essential:true});
+        status.textContent = destination ? 'Your location and referral route' : 'Showing your current location';
+        if (destination) await drawRoute(point, destination);
+    };
+    const showDestination = point => {
+        if (!destinationMarker) destinationMarker = new mapboxgl.Marker({color:'#780606'}).setPopup(new mapboxgl.Popup({offset:20}).setText(facility?.name || 'Referral destination'));
+        destinationMarker.setLngLat(point).addTo(map);
+    };
+    const drawRoute = async (start, end) => {
+        showDestination(end);
+        try {
+            const url=`https://api.mapbox.com/directions/v5/mapbox/driving-traffic/${start[0]},${start[1]};${end[0]},${end[1]}?alternatives=true&geometries=geojson&overview=full&steps=true&annotations=congestion,closure&access_token=${encodeURIComponent(token)}`;
+            const response=await fetch(url); const data=await response.json(); const routes=data.routes || []; const route=routes.reduce((shortest,current)=>current.distance<shortest.distance?current:shortest,routes[0]);
+            if (!response.ok || !route) throw new Error('Route unavailable');
+            const congestion=route.legs?.[0]?.annotation?.congestion || [];
+            const coords=route.geometry.coordinates;
+            const colorFor=value=>({low:'#17803d',moderate:'#e0a100',heavy:'#e66b16',severe:'#c62828'}[value]||'#64748b');
+            const segments=coords.slice(1).map((point,index)=>({type:'Feature',geometry:{type:'LineString',coordinates:[coords[index],point]},properties:{congestion:congestion[index]||'unknown',color:colorFor(congestion[index])}}));
+            const routeData={type:'FeatureCollection',features:segments.length?segments:[{type:'Feature',geometry:route.geometry,properties:{congestion:'unknown',color:'#780606'}}]};
+            if(map.getSource('referral-route')) map.getSource('referral-route').setData(routeData);
+            else {map.addSource('referral-route',{type:'geojson',data:routeData});map.addLayer({id:'referral-route-line',type:'line',source:'referral-route',layout:{'line-join':'round','line-cap':'round'},paint:{'line-color':['get','color'],'line-width':7,'line-opacity':0.9}});}
+            const bounds=new mapboxgl.LngLatBounds(start,start); route.geometry.coordinates.forEach(p=>bounds.extend(p)); map.fitBounds(bounds,{padding:{top:80,bottom:300,left:50,right:420},maxZoom:15});
+            if(details){details.style.display='';const title=details.querySelector('h3');if(title)title.textContent=facility?.name||'Referral destination';const address=details.querySelector('.flex.items-center.gap-2.mt-1 p');if(address)address.textContent=`${facility?.address||'Selected facility'} â€¢ ${(route.distance/1000).toFixed(1)} km`;const stats=details.querySelectorAll('.grid.grid-cols-2 p.text-headline-md');if(stats[0])stats[0].textContent=`${Math.round(route.duration/60)} min`;if(stats[1])stats[1].textContent=facility?.status||'Driving route';}
+            const known=congestion.filter(c=>c&&c!=='unknown');
+            const congestionSummary=known.length?known.reduce((best,c)=>({low:0,moderate:1,heavy:2,severe:3}[c]||0) > ({low:0,moderate:1,heavy:2,severe:3}[best]||0) ? c : best,known[0]):'unavailable';
+            const incidents=route.legs?.[0]?.incidents||[];
+            const closures=route.legs?.[0]?.annotation?.closure||[];
+            const roadEvents=[...incidents.map(i=>i.description||i.type||'Reported road incident'),...closures.map(()=> 'Road closure reported')];
+            const updated=new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+            report.innerHTML=`<div class="flex items-center justify-between gap-2"><div class="font-bold text-slate-900">Traffic &amp; road report</div><span class="text-[11px] text-slate-500">Updated ${updated}</span></div><div class="mt-3 flex items-center gap-2"><span class="h-2.5 w-2.5 rounded-full" style="background:${colorFor(congestionSummary)}"></span><span><b>Traffic:</b> ${congestionSummary==='unavailable'?'Data unavailable':congestionSummary}</span><span class="ml-auto">${Math.round(route.duration/60)} min</span></div><div class="mt-2"><b>Road safety:</b> ${roadEvents.length?`${roadEvents.length} reported incident${roadEvents.length===1?'':'s'} / closure${roadEvents.length===1?'':'s'}`:'No incidents or closures returned for this route'}</div>${roadEvents.length?`<ul class="mt-1 list-disc pl-5">${roadEvents.slice(0,4).map(item=>`<li>${item}</li>`).join('')}</ul>`:''}<p class="mt-2 text-[11px] text-slate-500">Mapbox traffic and incident data; coverage varies by road. This is not a guarantee that a road is safe.</p>`;
+            status.textContent=`Shortest available route to ${facility?.name||'referral destination'}`;
+        } catch (_) { status.textContent='Destination shown. Live traffic routing is unavailable right now.';report.innerHTML='<div class="font-bold text-slate-900">Traffic &amp; road report</div><p class="mt-1">Live traffic and road incident data are unavailable for this route right now.</p>'; }
+    };
+
+    map.on('load', async () => {
+        const facilityId = Number(params.get('facility'));
+        if (params.has('facility') && Number.isInteger(facilityId) && facilityId > 0) {
+            try {
+                const response = await fetch(`${apiBase}/api/hospitals/${facilityId}`);
+                const data = await response.json();
+                if (!response.ok || !data.facility) throw new Error(data.message || 'Database facility not found');
+                facility = data.facility;
+                destination = coords(facility.lat, facility.lng) ? [Number(facility.lng), Number(facility.lat)] : null;
+                if (details) {
+                    details.style.display = '';
+                    const title = details.querySelector('h3');
+                    if (title) title.textContent = facility.name || 'Referral destination';
+                }
+            } catch (error) {
+                facility = null;
+                status.textContent = error.message || 'Could not load the selected facility from the database.';
             }
-        });
-    </script>
+        }
+        if (destination) showDestination(destination);
+        if (!destination && facility) {
+            const address = [facility.address, facility.name].filter(Boolean).join(', ');
+            if (address) {
+                fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(address)}.json?limit=1&country=ng&access_token=${encodeURIComponent(token)}`)
+                    .then(r=>r.json()).then(data=>{const center=data.features?.[0]?.center;if(center){destination=center;showDestination(destination);if(userPoint)drawRoute(userPoint,destination);else{map.flyTo({center:destination,zoom:15});status.textContent='Showing '+(facility.name||'hospital')+' on the map';}}else status.textContent='Could not locate this hospital address.';})
+                    .catch(()=>{status.textContent='Could not locate this hospital address.';});
+            }
+        }
+        const useSavedLocation = async () => {
+            if (coords(savedRequest.lat,savedRequest.lng)) {
+                await showUser([Number(savedRequest.lng),Number(savedRequest.lat)]);
+                return true;
+            }
+            if (savedLocationText) {
+                try {
+                    const query=encodeURIComponent(savedLocationText);
+                    const response=await fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${query}.json?limit=1&country=ng&access_token=${encodeURIComponent(token)}`);
+                    const result=await response.json();
+                    const point=result.features?.[0]?.center;
+                    if(point){await showUser(point);return true;}
+                } catch (_) {}
+            }
+            return false;
+        };
+        if (!navigator.geolocation) {
+            if (!(await useSavedLocation())) status.textContent='Location is unavailable. Enter a location or allow location access.';
+            return;
+        }
+        navigator.geolocation.getCurrentPosition(pos=>showUser([pos.coords.longitude,pos.coords.latitude]),async()=>{
+            if (!(await useSavedLocation())) status.textContent='Could not access your location. Enter a location or allow location access.';
+        },{enableHighAccuracy:true,timeout:12000,maximumAge:60000});
+    });
+    const locate=()=>{if(userPoint)map.flyTo({center:userPoint,zoom:15});else if(navigator.geolocation)navigator.geolocation.getCurrentPosition(p=>showUser([p.coords.longitude,p.coords.latitude]),()=>{status.textContent='Location access was not granted.';});};
+    const startNavigation=()=>{if(!userPoint||!destination){status.textContent='Choose a hospital and allow location access to start navigation.';return;}window.open(`https://www.google.com/maps/dir/?api=1&origin=${userPoint[1]},${userPoint[0]}&destination=${destination[1]},${destination[0]}&travelmode=driving&dir_action=navigate`,'_blank','noopener');};
+    document.querySelectorAll('button').forEach(button=>{if(button.textContent.includes('Start Navigation'))button.addEventListener('click',startNavigation);});
+    document.getElementById('mobileLocate')?.addEventListener('click',locate);
+    document.querySelectorAll('.fixed.right-4 button').forEach(button=>{if(button.textContent.includes('my_location'))button.addEventListener('click',locate);});
+    document.querySelectorAll('nav button').forEach(button=>{if(button.textContent.includes('Profile'))button.onclick=()=>location.href='profile.html';});
+    document.querySelector('.md\\:hidden.absolute.top-4 button')?.addEventListener('click',()=>history.back());
+    window.setInterval(()=>{if(userPoint&&destination)drawRoute(userPoint,destination);},120000);
+})();
+</script>
 </body></html>
